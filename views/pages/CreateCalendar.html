@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+	<style>
+    #clock {
+			margin: 5px;
+		}
+		table {
+      		border-collapse: collapse;
+			margin: 5px;
+    }
+		caption {
+			font-size: 1.2em;
+			font-weight: bold;
+			color: blue;
+			background: lavender;
+			border: 1px solid green;
+			border-bottom: none;
+			border-collapse: collapse;
+		}
+    td,
+    th {
+      	border: 1px solid green;
+		padding: 3px;
+		text-align: center;
+		background-color: lavender;
+		cursor: default;
+    }
+		th {
+      font-weight: bold;
+    }
+		.h {
+			color: blue;
+		}
+		.m {
+			color: orange;
+		}
+		.s {
+			color: red;
+		}
+		[now] {
+			background: silver;
+		}
+  </style>
+    <title>Calendar</title>
+	<script defer src ="../../javascripts/createCalendar.js"></script>	
+</head>
+<body>
+<div id="clock"><span class="h"></span>:<span class="m"></span>:<span class="s"></span></div>
+<div>
+<button onclick="start()">Start</button><button onclick="stop()">Stop</button>
+</div>
+	<script id="makeClock">
+	let interval;
+	start()
+	function start() {
+		interval = setInterval(() => getClock(), 1000);
+		getClock();
+	}
+	
+	function getClock() {
+		let d = new Date();
+		let h = ('0' + d.getHours()).slice(-2);
+		let m = ('0' + d.getMinutes()).slice(-2);
+		let s = ('0' + d.getSeconds()).slice(-2);
+		clock.children[0].innerText = h;
+		clock.children[1].innerText = m;
+		clock.children[2].innerText = s;
+	}
+	function stop() {
+		clearInterval(interval);
+	}
+	</script>
+</body>
+</html>

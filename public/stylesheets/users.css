@@ -1,0 +1,21 @@
+.users {
+    position: relative;
+    width: 50vw;
+    border-collapse: collapse;
+    margin: 5px;
+}  
+.users td, th {
+    /* background: white; */
+    border: 1px solid black;
+    padding: 3px;
+    text-align: center;
+    margin: 3px;
+}  
+/* .users th {
+    background-color: lavender;
+    font-weight: bolder;
+} */
+td>img {
+    height: 64px;
+    border: 0 solid white;
+}

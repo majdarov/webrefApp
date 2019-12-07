@@ -1,0 +1,113 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset = UTF-8>
+		<style>
+		.tree span:hover {
+			font-weight: bold;
+			color: blue;
+		}
+		.tree .selected {
+			background: khaki;
+		}
+		span {
+			cursor: pointer;
+		}
+		iframe {
+			weight: 250px;
+			height: 250px;
+			left: 80%;
+			top: 10px;
+			position: absolute;
+			border: 0;
+		}
+		.button {
+			padding: 3px;
+			background: aqua;
+			border: 1px blue;
+			border-radius: 5px;
+		}
+		</style>
+	</head>
+<body>
+<a href="/" class="button">Home</a> | <a href="/users" class="button">Users</a>
+  <ul class="tree" id="tree">
+    <li>Животные
+      <ul>
+        <li>Млекопитающие
+          <ul>
+            <li>Коровы</li>
+            <li>Ослы</li>
+            <li>Собаки</li>
+            <li>Тигры</li>
+          </ul>
+        </li>
+        <li>Другие
+          <ul>
+            <li>Змеи</li>
+            <li>Птицы</li>
+            <li>Ящерицы</li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li>Рыбы
+      <ul>
+        <li>Аквариумные
+          <ul>
+            <li>Гуппи</li>
+            <li>Скалярии</li>
+          </ul>
+        </li>
+        <li>Морские
+          <ul>
+            <li>Морская форель</li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+<iframe src = CreateCalendar.html>...</iframe>
+<script name = "tree_hide">
+    // ... ваш код ...
+	let arr = document.querySelectorAll('li');
+	arr.forEach((item) => {
+		let n = item.querySelectorAll('li').length;
+		if (n > 0) {
+		item.firstChild.data += '[' + n + ']';
+		}
+		let span = document.createElement('span');
+		item.prepend(span);
+		span.append(span.nextSibling);
+	});
+	
+	let ul = document.getElementById('tree');
+	ul.addEventListener('click', function (event) {
+		//console.log(event.target.tagName);
+		if (event.target.tagName != 'SPAN') return;
+		if (event.target.nextSibling == null) return;
+		//console.log(event.target);
+		let target = event.target.nextSibling;
+		target.hidden = !target.hidden;
+	});
+</script>
+<script>
+tree.addEventListener('click', handler);
+
+function handler(e) {
+	let elem = e.target;
+	if (elem.tagName == 'SPAN') {
+		<!-- if (elem.tagName == 'SPAN') elem = elem.closest('LI'); -->
+		if (!e.ctrlKey) {
+			document.querySelectorAll('.selected').forEach((elem) => {
+			elem.classList.toggle('selected');
+			});
+		}
+		elem.classList.toggle('selected');
+		return;
+	} else return;
+}
+</script>
+
+</body>
+</html>

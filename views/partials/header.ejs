@@ -1,0 +1,16 @@
+<nav class="navbar navbar-inverse">
+<div class="container-fluid">
+  <div class="navbar-header">
+    <a href="/" class="navbar-brand">
+      <span class="glyphicon glyphicon-picture"></span>
+      <%=frmName %>
+    </a>
+    <% url.forEach((item, i) => {%>
+    <a href = <%=item %> class="navbar-link">
+    	<span class="glyphicon glyphicon-picture"></span>
+      	<%= urltitle[i] %>
+     </a>
+     <%}); %>
+  </div>
+</div>
+</nav>
