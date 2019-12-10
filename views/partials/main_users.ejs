@@ -1,4 +1,4 @@
-<table class='users'>
+<table class='users' name='users'>
     <caption><strong>USERS</strong></caption>
     <tr class='table-active'>
         <th>ID</th>
@@ -8,14 +8,14 @@
         <th colspan = '3'>photo</th>
     </tr>
     <% users.forEach(item => { %>    
-    <tr>
+    <tr id = <%= item.id %> >
         <td><%= item.id %></td>
         <td><%= item.name %></td>
         <td><%= item.age %></td>
         <td><%= item.role %></td>
         <td><img src = <%= 'images/' + item.photo %> alt = <%= item.photo  %> ></td>
         <td><img src = <%= 'data:image;base64,' + item.photoB %> alt = 'no foto' ></td>
-        <td><img src = 'images/delete.ico' alt = 'delete'  %> ></td>
+        <td><img src = 'images/delete.ico' class = 'del' alt = 'delete'  %> ></td>
     </tr>
     <% }); %>
 </table>

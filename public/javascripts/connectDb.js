@@ -1,18 +1,27 @@
 const sqlite3 = require('sqlite3').verbose();
-var db;
 
-function dbInit() { // Initiate DB
-    db = new sqlite3.Database('database/dbSQLite.db', (err) => {
+function dbInit() { // Initiate Db
+    
+   let db = new sqlite3.Database('database/dbSQLite.db', (err) => {
         if (err) {
             return console.error(err.message);
         }
         console.log('Connected to database');
+        return db;
     });
 }
 
 function getUsers(strSQL) {
     
-    dbInit();
+    // dbInit();
+    let db = new sqlite3.Database('database/dbSQLite.db', (err) => {
+        if (err) {
+            return console.error(err.message);
+        }
+        console.log('Connected to database');
+        // return db;
+    });
+
     let users = [];
     
     db.each(strSQL,(err, row) => {
@@ -31,11 +40,11 @@ function getUsers(strSQL) {
         users.push(user);
     });
 
-    closeDb();
+    closeDb(db);
     return users;
 }
 
-function closeDb() {
+function closeDb(db) {
     db.close(err => {
         if (err) {
             return console.error(err.message);
@@ -48,5 +57,7 @@ function closeDb() {
 strSQL = 'SELECT * FROM users';
 
 //users = dbInit();
-//module.exports.users = users;
+
 module.exports.getUsers = getUsers(strSQL);
+module.exports.dbInit = dbInit;
+module.exports.closeDb = closeDb;

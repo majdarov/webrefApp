@@ -32,5 +32,4 @@ module.exports = function(user_id) {
     });
     
     return true;
-
 }

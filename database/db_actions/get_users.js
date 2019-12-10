@@ -1,15 +1,15 @@
 module.exports = function() {
     
     const sqlite3 = require('sqlite3').verbose();
-    
-    // let db =  new sqlite3.Database('C:\\coding\\webrefApp\\database\\dbSQLite.db', (err) => {
-    let db =  new sqlite3.Database('database/dbSQLite.db', (err) => {
-        
+
+        // let db =  new sqlite3.Database('C:\\coding\\webrefApp\\database\\dbSQLite.db', (err) => {
+        let db =  new sqlite3.Database('database/dbSQLite.db', (err) => {
+
         if (err) {
             return console.error(err.message);
         }
         console.log('Connected to database');
-        // return db;
+
     });
 
     let users = [];
@@ -37,7 +37,6 @@ module.exports = function() {
         console.log('Disconnect SQLite database');
         // console.log(users);
     });
-    console.log('users.lenght: ' + users.length);
+    
     return users;
-
 }
