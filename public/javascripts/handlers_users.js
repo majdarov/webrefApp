@@ -26,7 +26,7 @@ function delUser(e) {
         if ( result != 'ok') {
             alert(result);
         }
-        alert('Delete OK!' + ' : ' + result);
         tr.remove();
+        alert('Delete OK!' + ' : ' + result);
     })   
 }

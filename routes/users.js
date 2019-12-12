@@ -1,22 +1,23 @@
-var express = require('express');
-var router = express.Router();
+var router = require('express').Router();
 var options = require('../public/javascripts/options.json');
 var dbUsers = require('../database/db_actions');
-// var dbUsers = require('../public/javascripts/connectDB');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  
   options.page = 'main_users.ejs';
   options.tblName = 'Users Table';
   options.url = ['pages/UlLi.html'];
   options.urltitle = ['UlLi.html'];
-  // console.log(__dirname);
-  options.users = dbUsers.getUsers;
-  
+  dbUsers.getUsers(options);
+  next();
+}, function (req, res, next) {
+    console.log('promise end ' + options.users.length);
+    res.render('pages/index', options);
+})
+
+router.get('/:id', function(req, res, next) {
   res.render('pages/index', options);
-  
-});
+})
 
 router.post('/', function(req, res, next) {
   let user = req.body;

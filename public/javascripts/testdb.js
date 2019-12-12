@@ -10,7 +10,7 @@ const sqlite3 = require('sqlite3').verbose();
     });
 
     db.serialize(() => {
-        db.each('SELECT name, age FROM users', (err, row) => {
+        db.each('SELECT user_name, age FROM users', (err, row) => {
             if (err) {
                 console.error(err.message)
             }
@@ -20,7 +20,7 @@ const sqlite3 = require('sqlite3').verbose();
             user.role = row.role;
             user.photo = row.photo;
             users.push(user); */
-            console.log(row.name + ' age->' + row.age);
+            console.log(row.user_name + ' age->' + row.age);
         });
     });
 
