@@ -1,4 +1,4 @@
-module.exports = async function(_options) {
+module.exports = function(_options) {
     const sqlite3 = require('sqlite3').verbose();
     // var options = require('../public/javascripts/options.json')
     _options.users = [];
@@ -13,7 +13,7 @@ module.exports = async function(_options) {
 
     });
     
-    db.serialize(() => {
+    // db.serialize(() => {
         db.each('SELECT * FROM users', (err, row) => {
             if (err) {
                 return console.error(err.message);
@@ -28,9 +28,8 @@ module.exports = async function(_options) {
             console.log(user.name);
             _options.users.push(user);
         });
-        // options.users = users;
-        // console.log('options.users.length: ' + options.users.length);
-    })
+
+    // })
     
     
 
@@ -40,9 +39,7 @@ module.exports = async function(_options) {
         }
         console.log('Disconnect SQLite database');
         console.log('users.length: ' + _options.users.length);
-        // return users;
-        // console.log(users);
+        
     });
-    // console.log('users: ' + users.length);
-    // return users;  
+    return true;
 }

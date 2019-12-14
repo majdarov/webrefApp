@@ -4,7 +4,7 @@ var options = require('../public/javascripts/options');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  // res.render('index', { title: 'Express for Mike' });
+  
   options.page = 'main_index.ejs';
   options.tblName = '';
   options.url = ['/users', 'pages/UlLi.html'];
