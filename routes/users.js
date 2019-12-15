@@ -7,13 +7,13 @@ router.get('/', async function(req, res, next) {
   
   options.page = 'main_users.ejs';
   options.tblName = 'Users Table';
-  options.url = ['pages/UlLi.html'];
-  options.urltitle = ['UlLi.html'];
-  await dbUsers.getUsers(options)
-  .then(result => {
-    console.log('getUsers end ' + options.users.length);
-    res.render('pages/index', options);
-  })
+  /* options.url = ['pages/UlLi.html'];
+  options.urltitle = ['UlLi.html']; */
+  
+  await dbUsers.getUsers(options);
+    // console.log('getUsers end ' + options.users.length);
+  res.render('pages/index', options);
+  
 })
 
 router.post('/', function(req, res, next) {

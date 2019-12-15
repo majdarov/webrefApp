@@ -2,11 +2,11 @@
 <table class='table table-hover table-bordered table-sm'>
     <caption><h4>USERS</h4></caption>
     <tr class='table-active'>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Age</th>
-        <th>role</th>
-        <th colspan = '3'>photo</th>
+        <th class="text-center">ID</th>
+        <th class="text-center">Name</th>
+        <th class="text-center">Age</th>
+        <th class="text-center">role</th>
+        <th colspan = '2' class="text-center">photo</th>
     </tr>
     <% users.forEach(item => { %>    
     <tr id = <%= item.id %> >
@@ -15,8 +15,8 @@
         <td><%= item.age %></td>
         <td><%= item.role %></td>
         <td><img src = <%= 'images/' + item.photo %> alt = <%= item.photo  %> ></td>
-        <td><img src = <%= 'data:image;base64,' + item.photoB %> alt = 'no foto' ></td>
-        <td><img src = 'images/delete.ico' class = 'del' alt = 'delete'  %> ></td>
+        <td><img src = <%= 'data:image;base64,' + item.photoB %> class="rounded-circle" alt = 'no foto' ></td>
+        <td class="text-right"><img src = 'images/delete.ico' class = 'del' alt = 'delete'></td>
     </tr>
     <% }); %>
 </table>

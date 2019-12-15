@@ -1,16 +1,21 @@
-<nav class="navbar navbar-inverse">
-<div class="container-fluid">
-  <div class="navbar-header">
-    <a href="/" class="navbar-brand">
-      <span class="glyphicon glyphicon-picture"></span>
-      <%=frmName %>
-    </a>
+<nav class="navbar navbar-dark bg-primary" aria-label="breadcrumb">
+  <ol class="breadcrumb bg-primary">
+    <li class="breadcrumb-item">
+      <a href="/" class="text-light">
+          <%=frmName %>
+      </a>
+    </li>
     <% url.forEach((item, i) => {%>
-    <a href = <%=item %> class="navbar-link">
-    	<span class="glyphicon glyphicon-picture"></span>
-      	<%= urltitle[i] %>
-     </a>
+    <li class="breadcrumb-item">
+      <a href=<%=item %> class="text-light" >
+          <%= urltitle[i] %>
+      </a>
+     </li>
      <%}); %>
-  </div>
-</div>
-</nav>
+  </ol>
+     <form class="form-inline">
+      <button type="button" class="btn btn-sm btn-outline-light my-2 my-sm-0" data-toggle="modal" data-target="#flipFlop">
+        Add user
+      </button>
+    </form>
+  </nav>
