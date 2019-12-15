@@ -2,24 +2,20 @@ var router = require('express').Router();
 var options = require('../public/javascripts/options.json');
 var dbUsers = require('../database/db_actions');
 
-/* router.use((req, res, next) => {
-  console.log('Start router.use');
-  dbUsers.getUsers(options);
-  next();
-}) */
-
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  console.log('Start callback');
+  
   options.page = 'main_users.ejs';
   options.tblName = 'Users Table';
   options.url = ['pages/UlLi.html'];
   options.urltitle = ['UlLi.html'];
-  let result = dbUsers.getUsers(options);
-  setTimeout(() => {
+  dbUsers.getUsers(options)
+  .then(() => {
     console.log('getUsers end ' + options.users.length);
-    res.render('pages/index', options)
-  }, 100);
+    res.render('pages/index', options);
+  })
+  .catch(err => console.error(err.message));
+
 })
 
 router.post('/', function(req, res, next) {
