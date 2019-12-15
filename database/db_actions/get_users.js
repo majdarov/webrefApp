@@ -1,19 +1,19 @@
-module.exports = function(_options) {
-    return new Promise((resolve, reject) => {
+module.exports =  async function(_options) {
+    
         const sqlite3 = require('sqlite3').verbose();
         // var options = require('../public/javascripts/options.json')
         _options.users = [];
 
         let db = new sqlite3.Database('database/dbSQLite.db', (err) => {
             if (err) {
-                reject(err.message);
+                return console.error(err.message);
             }
             console.log('Connected to database');
         });
 
         db.each('SELECT * FROM users', (err, row) => {
             if (err) {
-                reject(err.message);
+                return console.error(err.message);
             }
             let user = {};
             user.id = row.user_id;
@@ -28,11 +28,11 @@ module.exports = function(_options) {
 
         db.close(err => {
             if (err) {
-                reject(err.message);
+                return console.error(err.message);
             }
             console.log('Disconnect SQLite database');
             console.log('users.length: ' + _options.users.length);
-            resolve();
+            return true;
         });  
-    });   
+     
 }

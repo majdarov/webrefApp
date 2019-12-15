@@ -3,19 +3,17 @@ var options = require('../public/javascripts/options.json');
 var dbUsers = require('../database/db_actions');
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
+router.get('/', async function(req, res, next) {
   
   options.page = 'main_users.ejs';
   options.tblName = 'Users Table';
   options.url = ['pages/UlLi.html'];
   options.urltitle = ['UlLi.html'];
-  dbUsers.getUsers(options)
-  .then(() => {
+  await dbUsers.getUsers(options)
+  .then(result => {
     console.log('getUsers end ' + options.users.length);
     res.render('pages/index', options);
   })
-  .catch(err => console.error(err.message));
-
 })
 
 router.post('/', function(req, res, next) {
