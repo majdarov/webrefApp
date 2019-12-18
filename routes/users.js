@@ -4,30 +4,35 @@ var dbUsers = require('../database/db_actions');
 
 /* GET users listing. */
 router.get('/', async function(req, res, next) {
-  
+  // console.log(req.headers);
   options.page = 'main_users.ejs';
   options.tblName = 'Users Table';
-  /* options.url = ['pages/UlLi.html'];
-  options.urltitle = ['UlLi.html']; */
-  
-  await dbUsers.getUsers(options);
-    // console.log('getUsers end ' + options.users.length);
+  let _users = await dbUsers.getUsers(options);
   res.render('pages/index', options);
   
 })
 
-router.post('/', function(req, res, next) {
+router.post('/', async function(req, res, next) {
   let user = req.body;
-  // console.log(user.id + ':' + user.method);
+  console.log(user);
   
   if (user.method === 'delete') {
-    let result = dbUsers.delUser(user.id);
+    let result = await dbUsers.delUser(user.id);
     if (!result) {
       res.send('nodel')
     } else {
       res.send ('ok');
     }
+  } else if (user.method === 'adduser') { 
+      let result = await dbUsers.addUser(user);
+      if (!result) {
+        res.send('ErrAdd!');
+      }
+      res.send ('user added');
+  } else {
+    res.send('else');
   }
+
 })
 
 module.exports = router;

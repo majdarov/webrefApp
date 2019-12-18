@@ -1,4 +1,4 @@
-module.exports = function(user_id) {
+module.exports = async function(user_id) {
     
     const sqlite3 = require('sqlite3').verbose();
     

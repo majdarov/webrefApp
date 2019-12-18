@@ -8,7 +8,7 @@ var favicon = require('serve-favicon');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-// var ulliRouter = require('./routes/ulli');
+var ulliRouter = require('./routes/ulli');
 
 var app = express();
 
@@ -27,7 +27,7 @@ app.use(express.static(path.join(__dirname, 'views'), {extensions: ['html', 'htm
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/users/new', usersRouter);
+app.use('/ulli', ulliRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -3,12 +3,5 @@ node_modules
 .vscode/
 webrefApp.bat
 database/test.sql
-public/images/delete.ico
-public/images/Flops_A.ico
-public/images/Folder-Home.ico
-public/images/ioann.png
-public/images/jhon.png
-public/images/mike.png
-public/images/Network.ico
 test.js
 database/insert_demo.sql

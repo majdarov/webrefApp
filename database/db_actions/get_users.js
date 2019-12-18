@@ -18,11 +18,12 @@ module.exports =  async function(_options) {
             let user = {};
             user.id = row.user_id;
             user.name = row.user_name;
+            user.email = row.email;
             user.age = row.age;
             user.role = row.role;
             row.user_photo ? user.photo = row.user_photo : user.photo = 'no photo';
             row.photo ? user.photoB = row.photo.toString('base64') : user.photoB = 'no photo';
-            // console.log(user.name);
+            
             _options.users.push(user);
         });
 

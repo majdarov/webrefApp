@@ -4,6 +4,7 @@
     <tr class='table-active'>
         <th class="text-center">ID</th>
         <th class="text-center">Name</th>
+        <th class="text-center">E-Mail:</th>
         <th class="text-center">Age</th>
         <th class="text-center">role</th>
         <th colspan = '2' class="text-center">photo</th>
@@ -12,6 +13,7 @@
     <tr id = <%= item.id %> >
         <td><%= item.id %></td>
         <td><%= item.name %></td>
+        <td><%= item.email %></td>
         <td><%= item.age %></td>
         <td><%= item.role %></td>
         <td><img src = <%= 'images/' + item.photo %> alt = <%= item.photo  %> ></td>
