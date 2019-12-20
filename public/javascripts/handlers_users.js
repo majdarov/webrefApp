@@ -1,9 +1,10 @@
 let del = document.querySelectorAll('.del');
 del.forEach( item => item.addEventListener('click', delUser));
+addUser.addEventListener('submit', fAddUser);
 
-function delUser(e) {
+async function delUser(e) {
     let tr = e.target.closest('tr');
-    console.log('Deleting element ' + tr.tagName + ' id: ' + tr.id);
+    // console.log('Deleting element ' + tr.tagName + ' id: ' + tr.id);
     
     if (!confirm ('Delete this User?')) {
         console.log('cansel deletig');
@@ -13,47 +14,41 @@ function delUser(e) {
         id: tr.id,
         method: 'delete'
     }
-
-    fetch('http://localhost:3000/users', {
+    let response = await fetch('/users', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
           },
         body: JSON.stringify(fBody)
     })
-    .then(response => response.text())
-    .then(result => {
-        if ( result != 'ok') {
-            alert(result);
-        }
-        tr.remove();
-        alert('Delete OK!' + ' : ' + result);
-    })   
+    let result = await response.text();
+    if ( result != 'ok') {
+        alert(result);
+        return;
+    }
+    await fetch('/users');
+    location.reload([true]);   
 }
 
-
-addUser.addEventListener('submit', (e) => {
+async function fAddUser(e) {
     e.preventDefault();
-    // console.log(e.target);
-    
     let reqBody = new FormData(addUser);
     let fBody = {};
     reqBody.set('method', 'adduser');
-    
     for(let [name, value] of reqBody) {
         fBody[name] = value;
-        console.log(`${name} = ${value}`); // key1=value1, потом key2=value2
+        console.log(`${name} = ${value}`); 
     }
-    // flipFlop.setAttribute('aria-hidden', true);
-
-
-    fetch('/users', {
+    let response = await fetch('/users', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
           },
         body: JSON.stringify(fBody)
-    })
-    .then(response => response.text())
-    .then(result =>  alert(result));
-})
+    });
+    let result =  await response.text();
+    if (result = 'ok') {
+        await fetch('/users');
+        location.reload([true]);
+    }
+}

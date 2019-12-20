@@ -29,7 +29,7 @@ module.exports = async function(user_id) {
         }
         console.log('Disconnect SQLite database');
         // console.log(users);
+        
     });
-    
     return true;
 }
