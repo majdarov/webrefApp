@@ -13,9 +13,7 @@
      </li>
      <%}); %>
   </ol>
-     <form class="form-inline">
-      <button type="button" class="btn btn-sm btn-outline-light my-2 my-sm-0" data-toggle="modal" data-target="#flipFlop">
-        Add user
-      </button>
-    </form>
+  <% if (elems.header[0]) { %>
+    <%- include("../partials/" + elems.header[0]) -%>
+  <% } %>
   </nav>

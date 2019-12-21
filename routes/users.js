@@ -8,8 +8,14 @@ router.get('/', async function(req, res, next) {
   try {
     options.page = 'main_users.ejs';
     options.tblName = 'Users Table';
-    options.users = await dbUsers.getUsers()
-    .then(res.render('pages/index', await options));
+    options.elems.header = ['button_add_user.ejs'];
+    options.elems.forms =['form_add_user.ejs'];
+    options.scripts = ['javascripts/handlers_users.js'];
+    options.styles = ['users.css']
+    // await dbUsers.getUsersA(options)
+    // .then(res.render('pages/index', options));
+    await dbUsers.getUsersP(options);
+    res.render('pages/index', options);
   } catch(e) {
       console.error(e.message);  
   }

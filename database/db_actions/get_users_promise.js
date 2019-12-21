@@ -35,5 +35,5 @@ module.exports =  async function(_options) {
             // console.log('users.length: ' + _options.users.length);
             resolve();
         });  
-    })
+    });
 }

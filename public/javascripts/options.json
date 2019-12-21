@@ -4,6 +4,12 @@
     "frmName": "WebrefApp with EJS",
     "tblName": "",
     "url": ["/users", "/ulli"],
-    "urltitle": ["Users", "UlLi.html"],
-    "users": []
+    "urltitle": ["Users", "UlLi"],
+    "users": [],
+    "elems": {
+        "header": [],
+        "forms": []
+    },
+    "scripts": [],
+    "styles": []
 }

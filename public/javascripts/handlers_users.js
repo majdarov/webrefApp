@@ -5,7 +5,7 @@ addUser.addEventListener('submit', fAddUser);
 async function delUser(e) {
     let tr = e.target.closest('tr');
     // console.log('Deleting element ' + tr.tagName + ' id: ' + tr.id);
-    
+    // debugger;
     if (!confirm ('Delete this User?')) {
         console.log('cansel deletig');
         return;
