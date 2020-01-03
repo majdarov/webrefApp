@@ -1,51 +1,101 @@
-  <ul class="tree" id="tree">
-    <li>Животные
-      <ul>
-        <li>Млекопитающие
+<div class="row justify-content-between no-gutters">
+  <div class="col-lg-6 col-sm-auto order-2">
+    <ul class="tree" id="tree">
+        <li>Животные
           <ul>
-            <li>Коровы</li>
-            <li>Ослы</li>
-            <li>Собаки</li>
-            <li>Тигры</li>
+            <li>Млекопитающие
+              <ul>
+                <li>Коровы</li>
+                <li>Ослы</li>
+                <li>Собаки</li>
+                <li>Тигры</li>
+              </ul>
+            </li>
+            <li>Другие
+              <ul>
+                <li>Змеи</li>
+                <li>Птицы</li>
+                <li>Ящерицы</li>
+              </ul>
+            </li>
           </ul>
         </li>
-        <li>Другие
+        <li>Рыбы
           <ul>
-            <li>Змеи</li>
-            <li>Птицы</li>
-            <li>Ящерицы</li>
+            <li>Аквариумные
+              <ul>
+                <li>Гуппи</li>
+                <li>Скалярии</li>
+              </ul>
+            </li>
+            <li>Морские
+              <ul>
+                <li>Морская форель</li>
+              </ul>
+            </li>
           </ul>
         </li>
-      </ul>
-    </li>
-    <li>Рыбы
-      <ul>
-        <li>Аквариумные
-          <ul>
-            <li>Гуппи</li>
-            <li>Скалярии</li>
-          </ul>
-        </li>
-        <li>Морские
-          <ul>
-            <li>Морская форель</li>
-          </ul>
-        </li>
-      </ul>
-    </li>
-  </ul>
-<iframe src = "pages/CreateCalendar.html">...</iframe>
+    </ul>
+  </div>
+  <div class="col-sm-auto order-first">
+    <iframe src = "pages/CreateCalendar.html">...</iframe>
+  </div>
+  <div class="card text-center mb-3" id="card1" style="width: 20rem;">
+    <div class="card-header">
+      <h4>
+        <button class="btn btn-link" data-toggle="collapse" data-target="#cardCollapse">Card1</button>
+      </h4>
+    </div>
+    <div class="collapse" id="cardCollapse">
+      <img src="images/mike.png" class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title">Название карточки</h5>
+        <h6 class="curd-subtitle text-muted mb-2">Subtitle card</h6>
+        <p class="card-text">Some quick example text to build on the card title and make up the
+          bulk of the card's content.</p>
+      
+        <ul class="list-group">
+          <li class="list-group-item">Cras justo odio</li>
+          <li class="list-group-item">Dapibus ac facilisis in</li>
+          <li class="list-group-item">Vestibulum at eros</li>
+        </ul>
+      
+        <a href="#" class="card-link">Card link</a>
+        <a href="#" class="card-link">Another link</a>
+      </div>
+      </div>
+    </div>
+
+</div>
+  <div class="row p-3 justify-content-between bg-info no-gutters">
+    <div class="col-md-3 offset-md-2 offset-sm-0 align-self-start bg-danger p-1">
+      First из трёх колонок
+    </div>
+    <div class="col-md-auto order-first bg-warning align-self-center p-2 m-3">
+      Second из auto колонок
+    </div>
+    <div class="col-lg-2 align-self-end bg-success p-1">
+      Third из lg-2 колонок
+    </div>
+  </div>
+
+
 <script name = "tree_hide">
     // ... ваш код ...
-	let arr = document.querySelectorAll('li');
+	let arr = tree.querySelectorAll('li');
 	arr.forEach((item) => {
 		let n = item.querySelectorAll('li').length;
-		if (n > 0) {
-		item.firstChild.data += '[' + n + ']';
-		}
-		let span = document.createElement('span');
+		
+    let span = document.createElement('span');
 		item.prepend(span);
-		span.append(span.nextSibling);
+    span.append(span.nextSibling);
+
+    if (n > 0) {
+      let span2 = document.createElement('span');
+      span2.classList.add('badge','badge-primary');
+      span2.innerText = n;
+      span.append(span2);
+		}
 	});
 	
 	let ul = document.getElementById('tree');
@@ -54,7 +104,8 @@
 		if (event.target.tagName != 'SPAN') return;
 		if (event.target.nextSibling == null) return;
 		//console.log(event.target);
-		let target = event.target.nextSibling;
+    let target = event.target.nextSibling;
+    //if (!target) return;
 		target.hidden = !target.hidden;
 	});
 </script>

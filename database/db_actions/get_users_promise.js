@@ -11,6 +11,7 @@ module.exports =  async function(_options) {
             console.log('Connected to database');
         });
 
+        /* Get Users from SQLite */
         db.each('SELECT * FROM users', (err, row) => {
             if (err) {
                 reject(err.message);
@@ -26,13 +27,13 @@ module.exports =  async function(_options) {
             
             _options.users.push(user);
         });
+        /******/
 
         db.close(err => {
             if (err) {
                 reject(err.message);
             }
             console.log('Disconnect SQLite database');
-            // console.log('users.length: ' + _options.users.length);
             resolve();
         });  
     });

@@ -2,6 +2,7 @@ module.exports = async function(user) {
     
     const sqlite3 = require('sqlite3').verbose();
     
+    /***Open DB***/
     let db =  new sqlite3.Database('database/dbSQLite.db', (err) => {
         
         if (err) {
@@ -10,9 +11,11 @@ module.exports = async function(user) {
         console.log('Connected to database');
         
     });
+    /******/
 
+    /****Add User in DB***/
     let strSQL = 'INSERT INTO users(user_name, email, role) VALUES (?, ?, ?)';
-    let params = [ user.user_name, user.email, user.user_role];
+    let params = [ user.user_name, user.email, 'user'];
     
     db.run(strSQL, params, function(err) {
         if (err) {
@@ -25,6 +28,7 @@ module.exports = async function(user) {
             return (false);
         }
     });
+    /******/
 
     db.close(err => {
         if (err) {

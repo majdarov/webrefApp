@@ -11,14 +11,14 @@ span {
 iframe {
     width: 250px;
     height: 300px;
-    left: 70%;
+    /* left: 70%;
     top: 70px;
-    position: absolute;
+    position: absolute;*/
     border: 0;
 }
-.button {
+/* .button {
     padding: 3px;
     background: aqua;
     border: 1px blue;
     border-radius: 5px;
-}
+} */

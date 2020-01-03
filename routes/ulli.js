@@ -4,16 +4,17 @@ var options = require('../public/javascripts/options.json');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  
-  options.page = 'ulli.ejs';
-  options.tblName = '';
-  options.elems.header = [];
-  options.elems.forms = [];
-  options.scripts = [];
-  options.styles = ['ulli.css']
-  /* options.url = ['/users', 'pages/UlLi.html'];
-  options.urltitle = ['Users', 'UlLi.html']; */
-  res.render('pages/index', options);
+  try {
+    options.page = 'ulli.ejs';
+    options.tblName = '';
+    options.elems.header = [];
+    options.elems.forms = [];
+    options.scripts = [];
+    options.styles = ['ulli.css']
+    res.render('pages/index', options);
+  } catch (e) {
+    console.error(e.message);
+  }
 });
 
 module.exports = router;

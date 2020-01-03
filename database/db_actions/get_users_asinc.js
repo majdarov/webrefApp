@@ -9,7 +9,7 @@ module.exports =  async function(_options) {
         }
         console.log('Connected to database');
     });
-
+    /***Get Users from SQLite***/
     db.each('SELECT * FROM users', (err, row) => {
         if (err) {
             console.error(err.message);
@@ -25,13 +25,13 @@ module.exports =  async function(_options) {
         users.push(user);
         _options.users = users;
     });
+    /******/
 
     db.close(err => {
         if (err) {
             console.error(err.message);
         }
         console.log('Disconnect SQLite database');   
-        
     });  
     return Promise.resolve();
 }

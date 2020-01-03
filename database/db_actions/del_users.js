@@ -11,6 +11,7 @@ module.exports = async function(user_id) {
         // return db;
     });
 
+    /***Run Delete***/
     db.run('DELETE FROM users WHERE user_id=?', user_id, function(err) {
         if (err) {
             db.close();
@@ -22,6 +23,7 @@ module.exports = async function(user_id) {
             return false;
         }
     })
+    /******/
 
     db.close(err => {
         if (err) {

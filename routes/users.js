@@ -7,7 +7,7 @@ router.get('/', async function(req, res, next) {
   
   try {
     options.page = 'main_users.ejs';
-    options.tblName = 'Users Table';
+    /* options.tblName = 'Users Table'; */
     options.elems.header = ['button_add_user.ejs'];
     options.elems.forms =['form_add_user.ejs'];
     options.scripts = ['javascripts/handlers_users.js'];
@@ -19,7 +19,6 @@ router.get('/', async function(req, res, next) {
   } catch(e) {
       console.error(e.message);  
   }
-
 })
 
 router.post('/', async function(req, res, next) {
@@ -46,7 +45,6 @@ router.post('/', async function(req, res, next) {
   } catch(e) {
     console.error(e.message);
   }
-
 })
 
 module.exports = router;
