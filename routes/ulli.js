@@ -9,7 +9,7 @@ router.get('/', function(req, res, next) {
     options.tblName = '';
     options.elems.header = [];
     options.elems.forms = [];
-    options.scripts = [];
+    options.scripts = ['javascripts/handlers_ulli.js'];
     options.styles = ['ulli.css']
     res.render('pages/index', options);
   } catch (e) {

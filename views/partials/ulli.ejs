@@ -63,8 +63,8 @@
         <a href="#" class="card-link">Card link</a>
         <a href="#" class="card-link">Another link</a>
       </div>
-      </div>
     </div>
+  </div>
 
 </div>
   <div class="row p-3 justify-content-between bg-info no-gutters">
@@ -78,51 +78,3 @@
       Third из lg-2 колонок
     </div>
   </div>
-
-
-<script name = "tree_hide">
-    // ... ваш код ...
-	let arr = tree.querySelectorAll('li');
-	arr.forEach((item) => {
-		let n = item.querySelectorAll('li').length;
-		
-    let span = document.createElement('span');
-		item.prepend(span);
-    span.append(span.nextSibling);
-
-    if (n > 0) {
-      let span2 = document.createElement('span');
-      span2.classList.add('badge','badge-primary');
-      span2.innerText = n;
-      span.append(span2);
-		}
-	});
-	
-	let ul = document.getElementById('tree');
-	ul.addEventListener('click', function (event) {
-		//console.log(event.target.tagName);
-		if (event.target.tagName != 'SPAN') return;
-		if (event.target.nextSibling == null) return;
-		//console.log(event.target);
-    let target = event.target.nextSibling;
-    //if (!target) return;
-		target.hidden = !target.hidden;
-	});
-</script>
-
-<script>
-tree.addEventListener('click', handler);
-
-function handler(e) {
-	let elem = e.target;
-	if (elem.tagName == 'SPAN') {
-		if (!e.ctrlKey) {
-			document.querySelectorAll('.selected').forEach((elem) => {
-			elem.classList.toggle('selected');
-			});
-		}
-		elem.classList.toggle('selected');
-		return;
-	} else return;
-}
-</script>

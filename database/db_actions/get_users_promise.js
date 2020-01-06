@@ -1,16 +1,15 @@
-module.exports =  async function(_options) {
+module.exports =  async function(options) {
     return new Promise((resolve, reject) => {
         const sqlite3 = require('sqlite3').verbose();
-        // var options = require('../public/javascripts/options.json')
-        _options.users = [];
-
+        
         let db = new sqlite3.Database('database/dbSQLite.db', (err) => {
             if (err) {
                 reject(err.message);
             }
             console.log('Connected to database');
         });
-
+        
+        options.users = [];
         /* Get Users from SQLite */
         db.each('SELECT * FROM users', (err, row) => {
             if (err) {
@@ -25,7 +24,7 @@ module.exports =  async function(_options) {
             row.user_photo ? user.photo = row.user_photo : user.photo = 'no photo';
             row.photo ? user.photoB = row.photo.toString('base64') : user.photoB = 'no photo';
             
-            _options.users.push(user);
+            options.users.push(user);
         });
         /******/
 
