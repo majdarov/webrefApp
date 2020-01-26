@@ -87,8 +87,18 @@ function onListening() {
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
-  debug('Listening on ' + bind);
-	console.log('Listening on ', bind);
-	open('http://localhost:' + addr.port, {app:'chrome'});
+  console.log('Listening on ', bind);
+  // process.argv.forEach((val, index) => {
+  //   // console.log(`${index}: ${val}`);
+  //   console.log(val.split('\\'));
+  // });
+  
+  let proc = process.argv0.split('\\');
+  console.log(proc[proc.length - 1]);
+  if (proc[proc.length - 1] !== 'electron.exe') {
+    open('http://localhost:' + addr.port, {app:'chrome'});
+  }
 }
 /*chrome*/
+
+module.exports = server;

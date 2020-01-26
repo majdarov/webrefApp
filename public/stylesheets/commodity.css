@@ -11,3 +11,12 @@ span {
 #list li:hover {
     cursor: pointer;
 }
+.tree ul {
+    list-style: none;
+}
+.list ul {
+    list-style: none;
+}
+#tree li::before { 
+  content: url('../images/icons/folder.svg');
+}

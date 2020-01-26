@@ -2,8 +2,10 @@
   "name": "webrefapp",
   "version": "0.0.0",
   "private": true,
+  "main": "main.js",
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "electron": "electron ."
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -20,5 +22,8 @@
     "pug": "^2.0.4",
     "serve-favicon": "^2.5.0",
     "sqlite3": "^4.1.1"
+  },
+  "devDependencies": {
+    "electron": "^7.1.10"
   }
 }
