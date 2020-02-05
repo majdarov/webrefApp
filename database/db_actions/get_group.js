@@ -13,19 +13,21 @@ module.exports =  async function() {
         let groups = [];
         /* Get Commodity from SQLite */
         let strSQL = `SELECT 
-                        UUID code,
+                        UUID,
+                        CODE code,
                         PARENT_UUID parentCode,
                         NAME name 
                       FROM COMMODITY
                       WHERE IS_GROUP = 1
                       ORDER BY CAST(CODE AS INTEGER);`
 
-        db.each(strSQL, (err, row) => {
+        db.all(strSQL, (err, rows) => {
             if (err) {
                 reject(err.message);
             }
-            
-            groups.push(row);
+            rows.forEach(row => {
+                groups.push(row);
+            });
         });
         /******/
 

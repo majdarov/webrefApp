@@ -21,8 +21,8 @@
             <td><%= item.email %></td>
             <td><%= item.age %></td>
             <td><%= item.role %></td>
-            <td><img src = <%= 'images/' + item.photo %> alt = <%= item.photo  %> ></td>
-            <td><img src = <%= 'data:image;base64,' + item.photoB %> class="rounded-circle" alt = 'no foto' ></td>
+            <td><img src = <%= "images/" + item.photo %> alt ="no foto" ></td>
+            <td><img src = <%= 'data:image;base64,' + item.photoB %> class="rounded-circle" alt = "no photo" ></td>
             <td class="text-right"><img src = 'images/delete.ico' class = 'del' alt = 'delete'></td>
         </tr>
         <% }); %>

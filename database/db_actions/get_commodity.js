@@ -13,7 +13,7 @@ module.exports =  async function(parentId) {
 
         let commodities = [];
 
-        if (parentId == 'root') {
+        if (parentId == 'rootTree') {
             parentId = 'IS NULL'
         } else {
             parentId = '= "' + parentId + '"';
@@ -25,16 +25,22 @@ module.exports =  async function(parentId) {
                         NAME name,
                         CODE code,
                         PRICE_OUT price,
-                        QUANTITY quantity
+                        QUANTITY quantity,
+                        PARENT_UUID parentCode,
+                        IS_GROUP g
                       FROM COMMODITY
-                      WHERE IS_GROUP = 0 AND PARENT_UUID ${parentId}
-                      ORDER BY CAST(UUID AS INTEGER);`
+                      WHERE PARENT_UUID ${parentId}
+                      ORDER BY 
+                        IS_GROUP DESC,
+                        CAST(CODE AS INTEGER) ASC;`
 
-        db.each(strSQL, (err, row) => {
+        db.all(strSQL, (err, rows) => {
             if (err) {
                 reject(err.message);
             }
-            commodities.push(row);
+            rows.forEach(row => {
+                commodities.push(row);
+            });
         });
         /******/
 
