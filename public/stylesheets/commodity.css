@@ -17,6 +17,9 @@ span {
 .list ul {
     list-style: none;
 }
-#tree li::before { 
+#tree span::before { 
   content: url('../images/icons/folder.svg');
+}
+#tree .selected::before {
+    content: url('../images/icons/folder-fill.svg');
 }

@@ -9,21 +9,15 @@ async function modHTML() {
       method: 'GET',
       headers: {get: 'groups'}
   });
-  
   let groups = await response.json();
-  
   groups.forEach(group => makeGroup(group, 'rootTree'));
-  let containerUl = document.getElementById('tree');
+  
+  let containerUl = $('#tree');
   treeMark(containerUl);
-  let event = new Event('click', {bubbles: true});
-  rootTree.querySelector('SPAN').dispatchEvent(event);
 }
 
 function makeGroup(group, rootLi)   {
-    
-  if (!group.parentCode) {
-    group.parentCode = rootLi;
-  }
+  
   let parentLi;
   try {
     parentLi = document.getElementById(group.parentCode);
@@ -55,55 +49,61 @@ function makeGroup(group, rootLi)   {
 
 function treeMark(containerUl) {
     if (!containerUl) return;
-    let arr = containerUl.querySelectorAll('li');
-    arr.forEach((item) => {
     
-        let n = item.querySelectorAll('li').length;
-        let span = document.createElement('span');
-        item.prepend(span);
-        span.append(span.nextSibling);
+    let arr = $('li', containerUl);
+    arr.each((index, item) => {
+    
+      let n = $('li', item).length;
+      let span = document.createElement('span');
+      item.prepend(span);
+      span.append(span.nextSibling);
 
-        if (n > 0) {
-          let span2 = document.createElement('span');
-          span2.classList.add('badge','badge-primary');
-          span2.innerText = n;
-          span.append(span2);
-        }
+      if (n > 0) {
+        let span2 = document.createElement('span');
+        span2.classList.add('badge','badge-primary');
+        span2.innerText = n;
+        span.append(span2);
+      }
     });
 
-    containerUl.addEventListener('click', function (event) {
-        if (event.target.tagName != 'SPAN') return;
+    containerUl.dblclick(function (event) {
+      
+      if (event.target.tagName !== 'SPAN') return;
         
-        if (event.isTrusted) {
-          if (event.target.nextSibling === null) return;
-          var target = event.target.nextSibling;
-        } else {
+      let isTrusted = event.originalEvent.isTrusted;
+      
+      if (isTrusted) {
+        if ($(event.target).next() === null) return;
+        var target = $(event.target).next();
+      } else {
           target = event.target.closest('ul');
           target.hidden = false;
+      }
 
-          return;
-        }
-        target.hidden = !target.hidden;
-    })
-        
-    containerUl.addEventListener('click', handler);
+      $(target).toggle();
+      
+    }) 
+
+    containerUl.click(handler);
 }
 
 function handler(e) {
   
   let elem = e.target;
-	if (elem.tagName == 'SPAN') {
-		if (!e.ctrlKey) {
-			document.querySelectorAll('.selected').forEach((elem) => {
-			elem.classList.toggle('selected');
-			});
-		}
-    elem.classList.toggle('selected');
-    if (!e.isTrusted) return;
-    let parentId = elem.closest('LI').id;
-    getCommodity(parentId);
-		return;
+  
+  if (elem.tagName !== 'SPAN') return;
+    
+  if (!e.ctrlKey) {
+    $('.selected').each((index, item) => {
+      $(item).toggleClass('selected');
+    });
   }
+  $(elem).toggleClass('selected');
+    
+  if (!e.originalEvent.isTrusted) return;
+    
+  let parentId = elem.closest('LI').id;
+  getCommodity(parentId);
   return;
 }
 
@@ -121,47 +121,49 @@ async function getCommodity(pId) {
   });
   let commodities = await response.json();
   
-  let list = document.getElementById('list');
-  list.innerHTML = '<li id="rootList" class="list-group-item list-group-item-primary">Root</li>';
-  if (!commodities[0].parentCode) rootList.classList.toggle('disabled');
+  let list = $('#list');
+  $(list).html('<li id="rootList" class="list-group-item list-group-item-primary">Root</li>');
+  if (!commodities[0].parentCode) $('#rootList').toggleClass('disabled');
   
   commodities.forEach(commodity => {
-    commodity.UUID = 'l' + commodity.UUID;
-    commodity.parentCode = 'l' + commodity.parentCode;
+    commodity.UUID = '_' + commodity.UUID;
+    commodity.parentCode = '_' + commodity.parentCode;
     let li = document.createElement('li');
     li.id = commodity.UUID;
-    li.className = 'list-group-item'
+    $(li).addClass('list-group-item');
     if (commodity.g) {
-      li.dataset.group = 1;
-      li.classList.add('list-group-item-info');
-      li.innerHTML = commodity.name;
+      $(li).data('group', 1);
+      $(li).addClass('list-group-item-info');
+      $(li).html(commodity.name);
       list.append(li);
     } else {
-      li.setAttribute('data-price', commodity.price);
-      li.setAttribute('data-quantity', commodity.quantity);
-      li.dataset.group = 0;
-      li.innerHTML = commodity.name + ' | ' + commodity.price/100 + ' руб.' + ' | ' + commodity.quantity/1000;
+      $(li).data('price', commodity.price);
+      $(li).data('quantity', commodity.quantity);
+      $(li).data('group', 0);
+      $(li).html(commodity.name + ' | ' + commodity.price/100 + ' руб.' + ' | ' + commodity.quantity/1000);
       list.append(li);
     }
    });
    
-   list.addEventListener('click', event => {
-    let e = new Event('click', {bubbles: true});
+   $(list).on('click', event => {
     
-    if (event.target.id == 'rootList') {
-      if (event.target.classList.disabled) return;
-      getCommodity('rootTree');      
-      // rootTree.firstElementChild.dispatchEvent(e);
-    } else  if (event.target.dataset.group == '1') {
+    if ( event.target.disabled ) return;
+    
+    if (event.target.id === 'rootList') { 
+      getCommodity('rootTree');
+      return;  
+    }
+    
+    if ( $(event.target).data('group') === 1 ) {
       getCommodity(event.target.id.slice(1));
-      // document.getElementById(event.target.id.slice(1)).firstElementChild.dispatchEvent(e);
+      return;
     } else {
       if (!event.ctrlKey) {
-        list.querySelectorAll('.active').forEach(item => {
-          item.classList.toggle('active');
-        })
+        $('.active', list).each((index, item) => {
+          $(item).toggleClass('active');
+        });
       }
-      event.target.classList.toggle('active');
+      $(event.target).toggleClass('active');
     }
    
    });

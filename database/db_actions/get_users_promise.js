@@ -21,8 +21,8 @@ module.exports =  async function(options) {
             user.email = row.email;
             user.age = row.age;
             user.role = row.role;
-            row.user_photo ? user.photo = row.user_photo : user.photo = 'no photo';
-            row.photo ? user.photoB = row.photo.toString('base64') : user.photoB = 'no photo';
+            row.user_photo ? user.photo = row.user_photo : user.photo = "null.png";
+            row.photo ? user.photoB = row.photo.toString('base64') : user.photoB = "null.png";
             
             options.users.push(user);
         });
