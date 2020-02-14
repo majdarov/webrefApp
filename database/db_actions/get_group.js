@@ -1,4 +1,4 @@
-module.exports =  async function() {
+module.exports = async function() {
     return new Promise((resolve, reject) => {
         const sqlite3 = require('sqlite3').verbose();
 
