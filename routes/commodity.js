@@ -2,12 +2,16 @@ var express = require('express');
 var router = express.Router();
 var options = require('../public/javascripts/options.json');
 var db = require('../database/db_actions');
+var cors = require('cors');
 
+router.options('*', cors());
 /* GET home page. */
-router.get('/', async function(req, res, next) {
+router.get('/', cors(), async function(req, res) {
+  
   try {
     if (req.headers.get == 'groups') {
       let groups = await db.getGroup();
+      console.log(res.getHeaders());
       res.send(groups);
     } else if (req.headers.get == 'commodities') {  
         let commodities = await db.getCommodity(req.headers.parentid);

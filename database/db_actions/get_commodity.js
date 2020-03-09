@@ -1,26 +1,26 @@
-module.exports =  async function(parentId) {
-    return new Promise((resolve, reject) => {
-        const sqlite3 = require('sqlite3').verbose();
+module.exports = async function(parentId) {
+  return new Promise((resolve, reject) => {
+    const sqlite3 = require("sqlite3").verbose();
 
-        /* Get Commodity from tabletposDB */
-        let db = new sqlite3.Database('database/tabletposDB', (err) => {
-            if (err) {
-                reject(err.message);
-            }
-            console.log('Connected to database');
-        });
-        /* *** */
+    /* Get Commodity from tabletposDB */
+    let db = new sqlite3.Database("database/tabletposDB", err => {
+      if (err) {
+        reject(err.message);
+      }
+      console.log("Connected to database");
+    });
+    /* *** */
 
-        let commodities = [];
+    let commodities = [];
 
-        if (parentId == 'rootTree') {
-            parentId = 'IS NULL'
-        } else {
-            parentId = '= "' + parentId + '"';
-        }
+    if (parentId == "rootTree") {
+      parentId = "IS NULL";
+    } else {
+      parentId = '= "' + parentId + '"';
+    }
 
-        /* Get Commodity from SQLite */
-        let strSQL = `SELECT 
+    /* Get Commodity from SQLite */
+    let strSQL = `SELECT 
                         UUID,
                         NAME name,
                         CODE code,
@@ -32,24 +32,24 @@ module.exports =  async function(parentId) {
                       WHERE PARENT_UUID ${parentId}
                       ORDER BY 
                         IS_GROUP DESC,
-                        CAST(CODE AS INTEGER) ASC;`
+                        CAST(CODE AS INTEGER) ASC;`;
 
-        db.all(strSQL, (err, rows) => {
-            if (err) {
-                reject(err.message);
-            }
-            rows.forEach(row => {
-                commodities.push(row);
-            });
-        });
-        /******/
-
-        db.close(err => {
-            if (err) {
-                reject(err.message);
-            }
-            console.log('Disconnect SQLite database');
-            resolve(commodities);
-        });  
+    db.all(strSQL, (err, rows) => {
+      if (err) {
+        reject(err.message);
+      }
+      rows.forEach(row => {
+        commodities.push(row);
+      });
     });
-}
+    /******/
+
+    db.close(err => {
+      if (err) {
+        reject(err.message);
+      }
+      console.log("Disconnect SQLite database");
+      resolve(commodities);
+    });
+  });
+};

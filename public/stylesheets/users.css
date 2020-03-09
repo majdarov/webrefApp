@@ -12,14 +12,14 @@
     text-align: center;
     margin: 3px;
 } 
-*/ 
+*/
 /* .users th {
     background-color: lavender;
     font-weight: bolder;
 } */
-td>img {
-    height: 48px;
+td > img {
+  height: 48px;
 }
 .del:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
