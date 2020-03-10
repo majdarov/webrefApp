@@ -11,7 +11,7 @@ router.get('/', cors(), async function(req, res) {
   try {
     if (req.headers.get == 'groups') {
       let groups = await db.getGroup();
-      console.log(res.getHeaders());
+      // console.log(res.getHeaders());
       res.send(groups);
     } else if (req.headers.get == 'commodities') {  
         let commodities = await db.getCommodity(req.headers.parentid);
