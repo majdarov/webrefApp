@@ -13,7 +13,7 @@ module.exports = async function(parentId) {
 
     let commodities = [];
 
-    if (parentId == "rootTree") {
+    if (parentId == "rootTree" || parentId == "0") {
       parentId = "IS NULL";
     } else {
       parentId = '= "' + parentId + '"';
