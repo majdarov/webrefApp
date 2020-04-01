@@ -11,7 +11,7 @@ function createWindow() {
     });
 
     // win.loadFile('index.html');
-    win.loadURL('http://localhost:5000')
+    win.loadURL("http://localhost:5000")
     win.on('closed', () => {
         win = null;
     });
