@@ -1,11 +1,68 @@
 <!DOCTYPE html>
 <html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
- <script src='./fetchEvo.js'></script>   
-</body>
+  </head>
+  <body>
+    <script src="./fetchEvo.js"></script>
+    <select name="options" id="options">
+      <option value="products_v1">product_v1</option>
+      <option value="products_v2">product_v2</option>
+      <option value="groups_v2">groups_v2</option>
+      <option value="documents_v2">documents_v2</option>
+      <option value="put_product_v2">put_product_v2</option>
+    </select>
+    <button onclick="getData()">GetStoreEvo</button>
+    <script>
+      async function getData() {
+        let option = selectOption(document.getElementById("options"));
+        let res = await getStoreEvo(option);
+        if (!res.paging) return;
+        if (res.paging.next_cursor) {
+          console.log("await next page");
+          option.path += "?cursor=" + res.paging.next_cursor;
+          getStoreEvo(option);
+        }
+      }
+      function selectOption(sel) {
+        switch (sel.value) {
+          case "products_v1":
+            // let path = products_v2.path + "/" + "84D31CA8-3476-43A3-8B58-F01D27649908";
+            return Object.assign({}, products_v1);
+          case "products_v2":
+            return Object.assign({}, products_v2);
+          case "groups_v2":
+            return Object.assign({}, groups_v2);
+          case "documents_v2":
+            return Object.assign({}, documents_v2);
+          case "put_product_v2":
+            let path = put_product_v2.path + "/" + product.id;
+            let body = JSON.stringify(product);
+            return Object.assign({}, put_product_v2, { path: path, body: body });
+          default:
+            break;
+        }
+      }
+
+      let product = {
+        type: "NORMAL",
+        name: "Подставка под цветы 17-019",
+        code: "184",
+        price: 2100,
+        cost_price: 0,
+        quantity: 0,
+        measure_name: "шт",
+        tax: "NO_VAT",
+        allow_to_sell: true,
+        article_number: "17-019",
+        parent_id: "ac5339d8-73fe-4795-8699-ca3c5145dc89",
+        id: "a70cf903-9b79-4928-8a29-5a119b9d9d24",
+        store_id: "20180608-EEA0-408D-807D-6AB73272E383",
+        user_id: "01-000000000910281",
+        barcodes: ["2073210001844"],
+      };
+    </script>
+  </body>
 </html>

@@ -8,6 +8,7 @@ var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var ulliRouter = require("./routes/ulli");
 var commodityRouter = require("./routes/commodity");
+var evoRouter = require('./routes/evo')
 
 var app = express();
 
@@ -29,6 +30,7 @@ app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/ulli", ulliRouter);
 app.use("/commodity*", commodityRouter);
+app.use("/api_evo", evoRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
