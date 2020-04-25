@@ -1,9 +1,9 @@
-module.exports = async function(parentId) {
+module.exports = async function (parentId) {
   return new Promise((resolve, reject) => {
     const sqlite3 = require("sqlite3").verbose();
 
     /* Get Commodity from tabletposDB */
-    let db = new sqlite3.Database("database/tabletposDB", err => {
+    let db = new sqlite3.Database("database/tabletposDB", (err) => {
       if (err) {
         reject(err.message);
       }
@@ -12,13 +12,16 @@ module.exports = async function(parentId) {
     /* *** */
 
     let commodities = [];
+    let strWhere;
 
-    if (parentId == "rootTree" || parentId == "0") {
-      parentId = "IS NULL";
+    if (parentId == "rootTree" || parentId == "0" || parentId === "null") {
+      strWhere = "WHERE PARENT_UUID IS NULL";
+    } else if (parentId === 'all') {
+      strWhere = "";
     } else {
-      parentId = '= "' + parentId + '"';
+      // parentId = '= "' + parentId + '"';
+      strWhere = `WHERE PARENT_UUID = "${parentId}"`;
     }
-
     /* Get Commodity from SQLite */
     let strSQL = `SELECT 
                         UUID,
@@ -29,7 +32,7 @@ module.exports = async function(parentId) {
                         PARENT_UUID parentCode,
                         IS_GROUP g
                       FROM COMMODITY
-                      WHERE PARENT_UUID ${parentId}
+                      ${strWhere}
                       ORDER BY 
                         IS_GROUP DESC,
                         CAST(CODE AS INTEGER) ASC;`;
@@ -38,13 +41,13 @@ module.exports = async function(parentId) {
       if (err) {
         reject(err.message);
       }
-      rows.forEach(row => {
+      rows.forEach((row) => {
         commodities.push(row);
       });
     });
     /******/
 
-    db.close(err => {
+    db.close((err) => {
       if (err) {
         reject(err.message);
       }

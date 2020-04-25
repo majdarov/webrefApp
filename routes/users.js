@@ -20,6 +20,12 @@ router.get('/', async function(req, res, next) {
   }
 })
 
+router.get('/:id', async function(req, res) {
+  // res.send(req.params);
+  let user = await db.getUserId(parseInt(req.params.id));
+  res.json(user);
+})
+
 router.post('/', async function(req, res, next) {
   let user = req.body;
   console.log(user);

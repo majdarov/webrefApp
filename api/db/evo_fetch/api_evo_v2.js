@@ -1,19 +1,19 @@
 let product = {
-  type: "?",
-  name: "Avgust Ревус 3 мл Средство защиты растений от болезней томатов",
-  code: "2179",
-  price: 35,
-  cost_price: 0,
-  measure_name: "шт",
-  tax: "NO_VAT",
-  allow_to_sell: true,
+  type: "?", //type
+  name: "Avgust Ревус 3 мл Средство ...", //name
+  code: "2179", //code
+  price: 35, //price
+  cost_price: 0, //costPrice
+  measure_name: "шт", //measureName
+  tax: "NO_VAT", //tax
+  allow_to_sell: true, //allowToSell
   parent_id: "9349aaca-79a1-4e51-bca1-8b633d73f18d",
-  id: "58CE77BB-5433-424F-896B-474154893103",
+  id: "58CE77BB-5433-424F-896B-474154893103", //uuid
   store_id: "20180608-EEA0-408D-807D-6AB73272E383",
   user_id: "01-000000000910281",
   created_at: "2020-04-04T14:44:56.564+0000",
   updated_at: "2020-04-04T15:43:07.192+0000",
-  barcodes: ["4606696006973"],
+  barcodes: ["4606696006973"],//barcodes
 }
 
 let product = {

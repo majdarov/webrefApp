@@ -19,23 +19,13 @@
   </footer>
   <script>
     window.addEventListener('load' ,() => {
-      let str = document.URL.slice(21);
-      let a = (str) => {
-        return document.querySelector(`a[href="${str}"]`);
-      }
-      let el = a(str);
-      if (!el) {
-        str = str.slice(0, str.indexOf('?'))
-        // console.log(str);
-      }
-      let ali = a(str);
-      let li = ali.parentNode;
+      let str = new URL(document.location).pathname;      
+      let li = $(`a[href="${str}"]`)[0].closest("li");
       li.classList.add('active');
       li.setAttribute('aria-current', 'page')
-      li.innerHTML = ali.innerHTML;
+      li.innerHTML = $(`a[href="${str}"]`)[0].innerText;
     })
   </script>
-  
   <script src="jquery-3.4.1.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>

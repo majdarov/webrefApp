@@ -7,15 +7,25 @@
   </head>
   <body>
     <script src="./fetchEvo.js"></script>
+		<script src="fetchEvoTemplate.js"></script>
+    <label for="uuid">Product_id</label>
+    <input type="text" id="uuid" />
+    <label for="bulk">bulk</label>
+    <input type="text" id="bulk" />
     <select name="options" id="options">
+      <option value="bulks_v1">bulks_v1</option>
       <option value="products_v1">product_v1</option>
       <option value="products_v2">product_v2</option>
       <option value="groups_v2">groups_v2</option>
       <option value="documents_v2">documents_v2</option>
       <option value="put_product_v2">put_product_v2</option>
+      <option value="put_array_product_v2">put_array_product_v2</option>
     </select>
     <button onclick="getData()">GetStoreEvo</button>
     <script>
+      
+      let path, method, body, headers;
+
       async function getData() {
         let option = selectOption(document.getElementById("options"));
         let res = await getStoreEvo(option);
@@ -26,21 +36,56 @@
           getStoreEvo(option);
         }
       }
+
       function selectOption(sel) {
         switch (sel.value) {
+          case "bulks_v1":
+            if (inputBulk.value) {
+              path = "bulks/" + inputBulk.value;
+            } else {
+              path = "bulks";
+            }
+            inputBulk.value = "";
+            return Object.assign({}, api_v2, {
+              method: "GET",
+              path,
+            });
           case "products_v1":
-            // let path = products_v2.path + "/" + "84D31CA8-3476-43A3-8B58-F01D27649908";
             return Object.assign({}, products_v1);
           case "products_v2":
-            return Object.assign({}, products_v2);
+            method = "GET";
+            path = api_v2.path + "products";
+            return Object.assign({}, api_v2, { method, path });
           case "groups_v2":
-            return Object.assign({}, groups_v2);
+            method = "GET";
+            path = api_v2.path + "product-groups";
+            return Object.assign({}, api_v2, { method, path });
           case "documents_v2":
-            return Object.assign({}, documents_v2);
+            method = "GET";
+            path = api_v2.path + "documents";
+            return Object.assign({}, api_v2, { method, path });
           case "put_product_v2":
-            let path = put_product_v2.path + "/" + product.id;
-            let body = JSON.stringify(product);
-            return Object.assign({}, put_product_v2, { path: path, body: body });
+            method = "PUT";
+            path = api_v2.path + "products/" + product.id;
+            body = JSON.stringify(product);
+            return Object.assign({}, api_v2, {
+              method,
+              path,
+              body,
+            });
+          case "put_array_product_v2":
+            method = "PUT";
+            headers = Object.assign({}, api_v2.headers, {
+              "Content-Type": "application/vnd.evotor.v2+bulk+json",
+            });
+            path = api_v2.path + "products";
+            body = arrBody;
+            return Object.assign({}, api_v2, {
+              method,
+              headers,
+              path,
+              body,
+            });
           default:
             break;
         }
@@ -48,21 +93,71 @@
 
       let product = {
         type: "NORMAL",
-        name: "Подставка под цветы 17-019",
-        code: "184",
-        price: 2100,
+        name: "Сударушка удобр.д/ томатов 60 гр.",
+        code: "2181",
+        price: 20,
         cost_price: 0,
-        quantity: 0,
         measure_name: "шт",
         tax: "NO_VAT",
         allow_to_sell: true,
-        article_number: "17-019",
-        parent_id: "ac5339d8-73fe-4795-8699-ca3c5145dc89",
-        id: "a70cf903-9b79-4928-8a29-5a119b9d9d24",
+        parent_id: "9349aaca-79a1-4e51-bca1-8b633d73f18d",
+        id: "445F90F7-E7B3-4A87-966D-EC97E7CF3D61",
         store_id: "20180608-EEA0-408D-807D-6AB73272E383",
         user_id: "01-000000000910281",
-        barcodes: ["2073210001844"],
+        barcodes: ["4603646001675"],
       };
+
+      let product1 = {
+        type: "NORMAL",
+        name:
+          "Avgust Ревус 3 мл Средство защиты растений от болезней томатов",
+        code: "2179",
+        price: 35,
+        cost_price: 0,
+        measure_name: "шт",
+        tax: "NO_VAT",
+        allow_to_sell: true,
+        parent_id: "9349aaca-79a1-4e51-bca1-8b633d73f18d",
+        id: "58CE77BB-5433-424F-896B-474154893103",
+        store_id: "20180608-EEA0-408D-807D-6AB73272E383",
+        user_id: "01-000000000910281",
+        created_at: "2020-04-04T14:44:56.564+0000",
+        updated_at: "2020-04-04T15:43:07.192+0000",
+        barcodes: ["4606696006973"],
+      };
+
+      let product2 = {
+        type: "NORMAL",
+        name: "Споробактерин-Рассада 5гр (фунгициды)",
+        code: "2180",
+        price: 25,
+        cost_price: 0,
+        measure_name: "шт",
+        tax: "NO_VAT",
+        allow_to_sell: true,
+        parent_id: "9349aaca-79a1-4e51-bca1-8b633d73f18d",
+        id: "39C3EBA8-5393-40E3-9EE9-2406FF0AAD98",
+        store_id: "20180608-EEA0-408D-807D-6AB73272E383",
+        user_id: "01-000000000910281",
+        created_at: "2020-04-04T14:41:47.634+0000",
+        updated_at: "2020-04-04T14:41:47.634+0000",
+        barcodes: ["4607007530972"],
+      };
+
+      let arrBody = JSON.stringify([product1, product2]);
+
+      let inputBulk = document.getElementById("bulk");
+
+      let inputUuid = document.getElementById("uuid");
+
+      inputUuid.onchange = async (e) => {
+        let uuid = e.target.value;
+        let path = api_v2.path + "/products/" + uuid;
+        let option = Object.assign({}, api_v2, { path });
+        let res = await getStoreEvo(option);
+        e.target.value = "";
+      };
+      
     </script>
   </body>
 </html>

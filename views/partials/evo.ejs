@@ -1,2 +1,36 @@
 <h2>Fetch Evo</h2>
-<!-- <script src='evotor/fetchEvo.js'></script>  -->
+<dl class="row m-sm-3 bg-light p-1">
+  <dt class="col-sm-5">api/groups</dt>
+  <dd class="col-sm-10">Получить JSON массив групп товаров</dd>
+  <dt class="col-sm-5">api/commodities/p/{parentUuid}</dt>
+  <dd class="col-sm-10">
+    Получить JSON массив товаров группы <mark><i>{parentUuid}</i></mark>
+  </dd>
+  <dt class="col-sm-5">api/commodities/{uuid}</dt>
+  <dd class="col-sm-10">
+    Получить JSON товар <mark><i>{uuid}</i></mark>
+  </dd>
+  <dt class="col-sm-5">api/commodities/all</dt>
+  <dd class="col-sm-10">Получить JSON массив всех товаров</dd>
+  <dt class="col-sm-5">api/config</dt>
+  <dd class="col-sm-10">Получить JSON массив конфигураций</dd>
+</dl>
+<button id="get_config" onClick="getConfig()">Get Config</button>
+<button id="get_config" onClick="">Get Stores</button>
+<script>
+  async function getConfig() {
+    let conf = await fetch("/api/config");
+    conf = await conf.json();
+    alert(conf.status.result);
+    let ul = document.createElement("ul");
+    conf.items.forEach((item) => {
+      if (item["config_name"]) {
+        let li = document.createElement("li");
+        li.name = item["config_name"];
+        li.innerText = item["config_name"] + ": " + item["config_value"];
+        ul.append(li);
+      }
+    });
+    $("main").append(ul);
+  }
+</script>
