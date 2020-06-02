@@ -2,9 +2,6 @@ const express = require("express");
 const router = express.Router();
 const options = require("../../public/javascripts/options.json");
 const db = require("../../database/db_actions");
-const initDb = require("../db/initial_db");
-const { createConfig, getConfig, setStore, addStoreInConfig } = require("../db/db_actions");
-const { createRequest, fetchEvo } = require("../db/evo_fetch");
 
 /* GET home page. */
 router.get("/", (req,res) => {

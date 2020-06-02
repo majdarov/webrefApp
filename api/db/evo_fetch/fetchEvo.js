@@ -7,7 +7,8 @@ module.exports = async function fetchEvo({
   method,
   headers,
   body,
-  cursor
+  cursor,
+  action
 }) {
 
     if (cursor) {
@@ -23,13 +24,12 @@ module.exports = async function fetchEvo({
 
     if (result.paging &&  result.paging.next_cursor) {
       let request = await createRequest({
-        type: "products_v2",
+        type: action,
         cursor: result.paging.next_cursor,
       });
       let resp = await fetchEvo(request);
       result.items = result.items.concat(resp.items);
     }
-    // console.log(`---result.items.length = ${result.items.length}---`);
     result.paging = {};
 
     return result;

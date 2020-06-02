@@ -31,7 +31,7 @@ router.get("/groups/:value?", async function (req, res) {
 });
 router.get("/products/:value?", async function (req, res) {
   if (!req.params.value) {
-    res.json({db: 'products'});
+    res.json({ db: "products" });
   } else if (req.params.value === "update") {
     let request = await createRequest({ type: "products_v2" });
     let result = await fetchEvo(request);
@@ -43,6 +43,30 @@ router.get("/products/:value?", async function (req, res) {
     });
     let result = await fetchEvo(request);
     res.send(result);
+  }
+});
+router.get("/documents/:value?", async function (req, res) {
+  if (!req.params.value) {
+    res.json({ db: "documents" });
+  } else if (req.params.value === "update") {
+    try {
+      let request = await createRequest({ type: "documents_v2" });
+      let result = await fetchEvo(request);
+      res.send(result);
+    } catch (err) {
+      res.send(err.message);
+    }
+  } else {
+    try {
+      let request = await createRequest({
+        type: "documents_v2",
+        value: req.params.value,
+      });
+      let result = await fetchEvo(request);
+      res.send(result);
+    } catch (err) {
+      res.send(err.message);
+    }
   }
 });
 

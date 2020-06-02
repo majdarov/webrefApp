@@ -16,21 +16,20 @@ async function createRequest(action) {
 
   //Getting appToken
   let response = await initDb(getConfig);
-  let app = response.items.find((item) => item["config_name"] === "app_token");
-  appToken = app["config_value"];
-  let store = response.items.find((item) => item["config_name"] === "store_id");
-  action.storeUuid = store["config_value"];
+  let app = response.items.find((item) => item.config_name === "app_token");
+  appToken = app.config_value;
+  let store = response.items.find((item) => item.config_name === "store_id");
+  action.storeUuid = store.config_value;
 
   api_v2.headers["X-Authorization"] = appToken;
 
   if (action.cursor) {
     api_v2.cursor = action.cursor;
   }
-  
+
   let request = selectOption(action);
   api_v2.cursor = "";
-
-  return request;
+  return { ...request, action: action.type };
 }
 
 function selectOption(action) {
@@ -53,6 +52,7 @@ function selectOption(action) {
         method: "GET",
         path: path,
       });
+    /* Получить товар по ID или все товары */
     case "products_v2":
       method = "GET";
       if (action.value) {
@@ -62,6 +62,9 @@ function selectOption(action) {
         path = "stores/" + action.storeUuid + "/products";
       }
       return { ...api_v2, method, path };
+    /*-------------------------------------*/
+
+    /* Получить группу по ID или список групп */
     case "groups_v2":
       method = "GET";
       if (action.value) {
@@ -70,12 +73,27 @@ function selectOption(action) {
       } else {
         path = "stores/" + action.storeUuid + "/product-groups";
       }
-      // return Object.assign({}, api_v2, { method, path });
       return { ...api_v2, method, path };
+    /*--------------------------------------*/
+
+    /* Получить документы (за пред. месяц, продажа) */
     case "documents_v2":
       method = "GET";
-      path = "store/" + storeUuid + "/documents";
+      if (action.value) {
+        path = "stores/" + action.storeUuid + "/documents/" + action.value;
+      } else {
+        path = "stores/" + action.storeUuid + "/documents";
+        if (!api_v2.cursor) {
+          let date = new Date();
+          date.setMonth(date.getMonth() - 1);
+          path += `?since=${date.getTime()}&type=SELL`;
+          console.log(path);
+        }
+      }
       return { ...api_v2, method, path };
+    /*----------------------------------------------*/
+
+
     case "put_product_v2":
       method = "PUT";
       path = "store/" + storeUuid + "/products/" + action.product.id;

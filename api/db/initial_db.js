@@ -11,7 +11,7 @@ module.exports = async function (callback) {
 
     let attachDb = "./api/db/products.db";
 
-    db.run(`ATTACH DATABASE "${attachDb}" AS products`, function(err) {
+    db.run(`ATTACH DATABASE "${attachDb}" AS products`, function (err) {
       if (err) {
         console.error(err.message);
       }
@@ -28,11 +28,11 @@ module.exports = async function (callback) {
           callback(db, result);
           status = { result: "ok" };
         } catch (err) {
-          status = { result: 'ERROR: ' + err.message };
+          status = { result: "ERROR: " + err.message };
         }
       } else if (typeof callback === "string") {
         try {
-          db.run(callback, function(err) {
+          db.run(callback, function (err) {
             if (err) {
               console.log(err.message);
               return err;
@@ -41,16 +41,17 @@ module.exports = async function (callback) {
           });
           status = { result: "ok" };
         } catch (err) {
-          status = { result: 'ERROR: ' + err.message };
+          status = { result: "ERROR: " + err.message };
         }
       } else if (callback instanceof Array) {
         try {
           db.serialize(() => {
             callback.forEach((item) => {
               if (typeof item === "string") {
-                db.run(item, function(err) {
+                db.run(item, function (err) {
                   if (err) {
                     console.log(err.message);
+                    status = { error: err.message };
                     return err;
                   }
                   statementSql = Object.assign({}, this);
@@ -62,7 +63,7 @@ module.exports = async function (callback) {
           });
           status = { result: "ok" };
         } catch (err) {
-          status = { result: 'ERROR: ' + err.message };
+          status = { result: "ERROR: " + err.message };
         }
       }
     }
@@ -73,7 +74,7 @@ module.exports = async function (callback) {
       }
       // console.log("from initDb: " + result);
       console.log("Disconnect database");
-      resolve({status, items: result, statementSql});
+      resolve({ status, items: result, statementSql });
     });
   });
 };
