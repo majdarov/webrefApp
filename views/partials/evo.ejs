@@ -32,10 +32,10 @@
     alert(conf.status.result);
     let ul = document.createElement("ul");
     conf.items.forEach((item) => {
-      if (item["config_name"]) {
+      if (item.config_name) {
         let li = document.createElement("li");
-        li.name = item["config_name"];
-        li.innerText = item["config_name"] + ": " + item["config_value"];
+        li.name = item.config_name;
+        li.innerText = item.config_name + ": " + item.config_value;
         ul.append(li);
       }
     });

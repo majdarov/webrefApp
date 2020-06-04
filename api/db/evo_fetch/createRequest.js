@@ -87,7 +87,6 @@ function selectOption(action) {
           let date = new Date();
           date.setMonth(date.getMonth() - 1);
           path += `?since=${date.getTime()}&type=SELL`;
-          console.log(path);
         }
       }
       return { ...api_v2, method, path };
