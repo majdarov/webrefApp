@@ -50,7 +50,7 @@ module.exports = async function (callback) {
               if (typeof item === "string") {
                 db.run(item, function (err) {
                   if (err) {
-                    console.log(err.message);
+                    console.log(err);
                     status = { error: err.message };
                     return err;
                   }

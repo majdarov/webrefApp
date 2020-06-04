@@ -1,14 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const options = require("../../public/javascripts/options.json");
-const db = require("../../database/db_actions");
 const initDb = require("../db/initial_db");
-const {
-  createConfig,
-  getConfig,
-  setStore,
-  addStoreInConfig,
-} = require("../db/db_actions");
+const db = require("../db/db_actions");
 const { createRequest, fetchEvo } = require("../db/evo_fetch");
 
 /* GET home page. */
@@ -31,10 +25,13 @@ router.get("/groups/:value?", async function (req, res) {
 });
 router.get("/products/:value?", async function (req, res) {
   if (!req.params.value) {
-    res.json({ db: "products" });
+    let result = await initDb([db.getProducts]);
+    res.send(result);
   } else if (req.params.value === "update") {
     let request = await createRequest({ type: "products_v2" });
-    let result = await fetchEvo(request);
+    let response = await fetchEvo(request);
+    let arrSQL = db.productsUpdate(response.items);
+    let result = await initDb(arrSQL);
     res.send(result);
   } else {
     let request = await createRequest({
