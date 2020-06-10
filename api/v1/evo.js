@@ -12,7 +12,7 @@ router.get("/groups", async function (req, res) {
   let data = {};
   data.count = groups.length;
   data.items = groups;
-  res.json(data);
+  res.send(data);
 });
 router.get("/commodities/:id?", async function (req, res) {
   try {
@@ -25,7 +25,7 @@ router.get("/commodities/:id?", async function (req, res) {
     let data = {};
     data.count = products.length;
     data.items = products;
-    res.json(data);
+    res.send(data);
   } catch (e) {
     res.send(e.message);
   }
@@ -35,7 +35,7 @@ router.get("/commodities/p/:parentId", async function (req, res) {
   let data = {};
   data.count = products.length;
   data.items = products;
-  res.json(data);
+  res.send(data);
 });
 
 module.exports = router;

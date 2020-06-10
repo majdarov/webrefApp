@@ -8,11 +8,13 @@ modHTML();
  *  Make Tree of Groups *
  ************************/
 async function modHTML() {
-  let response = await fetch("/commodity", {
+  /* let response = await fetch("/commodity", {
     method: "GET",
     headers: { get: "groups" }
-  });
-  let groups = await response.json();
+  }); */
+  let response = await fetch('/api/v1/groups');
+  let json = await response.json();
+  groups = json.items;
   groups.forEach(group => makeGroup(group, "rootTree"));
 
   let containerUl = $("#tree");
@@ -110,15 +112,17 @@ function handler(e) {
  *  Get Commodity
  */
 async function getCommodity(pId) {
-  let response = await fetch("/commodity", {
+  /* let response = await fetch("/commodity", {
     method: "GET",
     headers: {
       get: "commodities",
       parentId: pId
     }
-  });
+  }); */
+  let response = await fetch(`/api/v1/commodities/p/${pId}`);
 
-  let commodities = await response.json();
+  let json = await response.json();
+  let commodities = json.items;
 
   let list = $("#list");
   $(list).html(

@@ -4,7 +4,7 @@ module.exports = function (products) {
 
   const createTable =
     `CREATE TABLE IF NOT EXISTS products.products (
-    "id" TEXT,
+    "id" TEXT UNIQUE,
     "name" TEXT NOT NULL,
     "code" INTEGER,
     "measure_name" TEXT,

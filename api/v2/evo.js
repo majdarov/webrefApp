@@ -13,6 +13,7 @@ router.get("/groups/:value?", async function (req, res) {
   if (!req.params.value) {
     let request = await createRequest({ type: "groups_v2" });
     let result = await fetchEvo(request);
+    result.items.sort((a, b) => Date.parse(a.created_at) - Date.parse(b.created_at));
     res.send(result);
   } else {
     let request = await createRequest({
@@ -23,7 +24,7 @@ router.get("/groups/:value?", async function (req, res) {
     res.send(result);
   }
 });
-router.get("/products/:value?", async function (req, res) {
+router.get("/products/:value?/:pid?", async function (req, res) {
   if (!req.params.value) {
     let result = await initDb([db.getProducts]);
     res.send(result);
@@ -32,6 +33,9 @@ router.get("/products/:value?", async function (req, res) {
     let response = await fetchEvo(request);
     let arrSQL = db.productsUpdate(response.items);
     let result = await initDb(arrSQL);
+    res.send(result);
+  } else if (req.params.value === "p") {
+    let result = await initDb([db.getProducts], req.params.pid);
     res.send(result);
   } else {
     let request = await createRequest({

@@ -1,6 +1,6 @@
 const sqlite3 = require("sqlite3").verbose();
 
-module.exports = async function (callback) {
+module.exports = async function (callback, ...args) {
   return new Promise((resolve, reject) => {
     let db = new sqlite3.Database("./api/db/api.db", (err) => {
       if (err) {
@@ -25,7 +25,7 @@ module.exports = async function (callback) {
     if (callback) {
       if (typeof callback === "function") {
         try {
-          callback(db, result);
+          callback(db, result, args);
           status = { result: "ok" };
         } catch (err) {
           status = { result: "ERROR: " + err.message };
@@ -57,7 +57,7 @@ module.exports = async function (callback) {
                   statementSql = Object.assign({}, this);
                 });
               } else if (typeof item === "function") {
-                item(db, result);
+                item(db, result, args);
               }
             });
           });

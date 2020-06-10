@@ -12,6 +12,9 @@ const {
 const { createRequest, fetchEvo } = require("./db/evo_fetch");
 const v1 = require("./v1/evo");
 const v2 = require("./v2/evo");
+var cors = require('cors')
+
+router.options('*', cors());
 
 router.get("/", (req, res) => {
   res.redirect("/api/docs");
@@ -51,7 +54,7 @@ router.get("/config/:update?/:storeId?", async function (req, res) {
     res.json(config);
   }
 });
-router.use("/v1", v1);
-router.use("/v2", v2);
+router.use("/v1", cors(), v1);
+router.use("/v2", cors(), v2);
 
 module.exports = router;
