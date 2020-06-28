@@ -3,7 +3,7 @@
     "page": "",
     "frmName": "WebrefApp with EJS",
     "tblName": "",
-    "url": ["/users", "/ulli", "/commodity", "/api/docs"],
+    "url": ["/users", "/ulli", "/commodity", "/api/docs_new"],
     "urltitle": ["Users", "UlLi", "Commodity", "Evo"],
     "users": [],
     "elems": {

@@ -12,10 +12,10 @@ async function modHTML() {
     method: "GET",
     headers: { get: "groups" }
   }); */
-  let response = await fetch('/api/v1/groups');
+  let response = await fetch("/api/v2/groups");
   let json = await response.json();
   groups = json.items;
-  groups.forEach(group => makeGroup(group, "rootTree"));
+  groups.forEach((group) => makeGroup(group, "rootTree"));
 
   let containerUl = $("#tree");
   treeMark(containerUl);
@@ -24,7 +24,7 @@ async function modHTML() {
 function makeGroup(group, rootLi) {
   let parentLi;
   try {
-    parentLi = document.getElementById(group.parentCode);
+    parentLi = document.getElementById(group.parent_id);
     if (!parentLi) {
       parentLi = document.getElementById(rootLi);
     }
@@ -41,7 +41,7 @@ function makeGroup(group, rootLi) {
   }
 
   let li = document.createElement("li");
-  li.id = group.UUID;
+  li.id = group.id;
   li.innerHTML = group.name;
   if (rootLi === "rootList") {
     li.className = "list-group-item";
@@ -69,7 +69,7 @@ function treeMark(containerUl) {
     }
   });
 
-  containerUl.dblclick(function(event) {
+  containerUl.dblclick(function (event) {
     if (event.target.tagName !== "SPAN") return;
 
     if ($(event.target).next() === null) return;
@@ -112,30 +112,38 @@ function handler(e) {
  *  Get Commodity
  */
 async function getCommodity(pId) {
-  /* let response = await fetch("/commodity", {
-    method: "GET",
-    headers: {
-      get: "commodities",
-      parentId: pId
-    }
-  }); */
-  let response = await fetch(`/api/v1/commodities/p/${pId}`);
-
+ 
+  pId = pId === "rootTree" ? 0 : pId;
+  // let response = await fetch(`/api/v2/products/p/${pId}`);
+  let response = await fetch(`/api/v2/products?parent_id=='${pId}'`);
   let json = await response.json();
-  let commodities = json.items;
+  let products = json.items;
+
+  response = await fetch("/api/v2/groups");
+  json = await response.json();
+  let groups = json.items;
+  groups.forEach(item => {
+    if (!item.parent_id) {
+      item.parent_id = 0;
+    }
+    item.g = 1;
+  });
+  
+  let arr = groups.filter(item => item.parent_id === pId);
+  let commodities = arr.concat(products);
 
   let list = $("#list");
   $(list).html(
     '<li id="rootList" class="list-group-item list-group-item-primary">Root</li>'
   );
-  if (!commodities[0].parentCode) $("#rootList").toggleClass("disabled");
+  if (!commodities[0].parent_id) $("#rootList").toggleClass("disabled");
 
   //Add commodity into tree
-  commodities.forEach(commodity => {
-    commodity.UUID = "_" + commodity.UUID;
-    commodity.parentCode = "_" + commodity.parentCode;
+  commodities.forEach((commodity) => {
+    commodity.id = "_" + commodity.id;
+    commodity.parent_id = "_" + commodity.parent_id;
     let li = document.createElement("li");
-    li.id = commodity.UUID;
+    li.id = commodity.id;
     $(li).addClass("list-group-item");
     if (commodity.g) {
       $(li).data("group", 1);
@@ -159,7 +167,7 @@ async function getCommodity(pId) {
   });
 
   $("#list").off("click");
-  $(list).on("click", event => {
+  $(list).on("click", (event) => {
     if (event.target.disabled) return;
 
     if (event.target.id === "rootList") {

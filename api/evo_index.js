@@ -6,6 +6,7 @@ const initDb = require("./db/initial_db");
 const {
   createConfig,
   getConfig,
+  getDoks,
   setStore,
   addStoreInConfig,
 } = require("./db/db_actions");
@@ -17,7 +18,7 @@ var cors = require('cors')
 router.options('*', cors());
 
 router.get("/", (req, res) => {
-  res.redirect("/api/docs");
+  res.redirect("/api/docs_new");
 });
 router.get("/docs", async function (req, res) {
   try {
@@ -31,7 +32,36 @@ router.get("/docs", async function (req, res) {
     options.elems.header = [];
     options.elems.forms = [];
     options.scripts = [];
-    options.styles = [];
+    options.styles = ['api.css'];
+    res.render("pages/index", options);
+  } catch (e) {
+    console.error(e.message);
+  }
+});
+router.get("/docs_new", async function (req, res) {
+  try {
+    let config = await initDb([getConfig]);
+    if (!config.items.length) {
+      let arrSql = createConfig();
+      await initDb(arrSql).catch((e) => console.log(e.message));
+    }
+    let result = await initDb(getDoks);
+    let doks = [];
+    result.items.forEach(item => {
+      if (!doks.length || !doks.find(dok => dok.dl === item.dl)) {
+        doks.push({dl: item.dl, dts: {[item.dt]: item.dd}});
+      } else {
+        let el = doks.find(dok => dok.dl === item.dl);
+        el.dts[item.dt] = item.dd;
+      }
+    });
+    options.page = "api_doks.ejs";
+    options.tblName = "";
+    options.elems.header = [];
+    options.elems.forms = [];
+    options.scripts = [];
+    options.styles = ['api.css'];
+    options.doks = doks;
     res.render("pages/index", options);
   } catch (e) {
     console.error(e.message);

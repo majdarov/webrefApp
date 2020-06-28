@@ -11,6 +11,7 @@ router.get('/', function(req, res, next) {
     options.elems.forms = [];
     options.scripts = [];
     options.styles = [];
+    options.nodeVersion = process.versions.node;
     res.render('pages/index', options);
   } catch (error) {
     console.error(error.message);

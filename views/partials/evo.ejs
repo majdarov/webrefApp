@@ -1,5 +1,11 @@
-<h2>Fetch Evo</h2>
-<dl class="row m-sm-3 bg-light p-1">
+<h2 style="border-bottom: 1px lightblue solid; text-align: center;">Fetch Evo</h2>
+<h3>API Config</h3>
+<dl class="row m-sm-3 p-1">
+  <dt class="col-sm-5">api/config</dt>
+  <dd class="col-sm-10">Получить JSON массив конфигураций</dd>
+</dl>
+<h3>API V1</h3>
+<dl class="row m-sm-3 p-1">
   <dt class="col-sm-5">api/v1/groups</dt>
   <dd class="col-sm-10">Получить JSON массив групп товаров</dd>
   <dt class="col-sm-5">api/v1/commodities/p/<code>{parentUuid}</code></dt>
@@ -12,15 +18,15 @@
   </dd>
   <dt class="col-sm-5">api/v1/commodities</dt>
   <dd class="col-sm-10">Получить JSON массив всех товаров</dd>
-  <dt class="col-sm-5">api/config</dt>
-  <dd class="col-sm-10">Получить JSON массив конфигураций</dd>
+</dl>
+<h3>API V2</h3>
+<dl class="row m-sm-3 p-1">
   <dt class="col-sm-5">api/v2/products/<code>{uuid}</code></dt>
   <dd class="col-sm-10">
     Получить JSON товара <mark><i>{uuid}</i></mark>
   </dd>
   <dd class="col-sm-10">
-    Если <code>{uuid} === "update"</code> - обновить список товаров в
-    базе.
+    Если <code>{uuid} === "update"</code> - обновить список товаров в базе.
   </dd>
 </dl>
 <button id="get_config" onClick="getConfig()">Get Config</button>

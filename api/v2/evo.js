@@ -25,14 +25,17 @@ router.get("/groups/:value?", async function (req, res) {
   }
 });
 router.get("/products/:value?/:pid?", async function (req, res) {
+  // console.log(req.query);
   if (!req.params.value) {
-    let result = await initDb([db.getProducts]);
+    let query = Object.entries(req.query).length ? req.query : null;
+    let result = await initDb([db.getProductsWithQuery], query);
+    result.query = req.query;
     res.send(result);
   } else if (req.params.value === "update") {
-    let request = await createRequest({ type: "products_v2" });
-    let response = await fetchEvo(request);
-    let arrSQL = db.productsUpdate(response.items);
-    let result = await initDb(arrSQL);
+    let request = await createRequest({ type: "products_v2" }); 
+    let response = await fetchEvo(request); // Get Products from Evotor API
+    let arrSQL = db.productsUpdate(response.items); //Make SQL for update local storage (SQLite)
+    let result = await initDb(arrSQL);//Updated local storage
     res.send(result);
   } else if (req.params.value === "p") {
     let result = await initDb([db.getProducts], req.params.pid);
