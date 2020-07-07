@@ -5,13 +5,6 @@ const sequelize = new Sequelize({
 });
 const Conf = require('./config');
 
-// let store;
-// store = await Conf.findOne({
-//   attributes: ['config_name', 'config_value'],
-//   where: { config_name: 'store_id' },
-// });
-// console.log(store.config_value);
-
 class Group extends Model {
   static async configStore() {
     let store;

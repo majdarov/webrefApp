@@ -5,8 +5,10 @@ const initDb = require('../db/initial_db');
 const db = require('../db/db_actions');
 const { createRequest, fetchEvo } = require('../db/evo_fetch');
 const Group = require('../models/groups');
+const Products = require('../models/products');
 const { Op } = require('sequelize');
 const fetch = require('node-fetch');
+const ProductsEvo = require('../models/productsEvo');
 
 /* GET home page. */
 router.get('/', (req, res) => {
@@ -24,9 +26,6 @@ router.get('/seq/:destroy?', async (req, res) => {
     let groups = await Group.findAll();
     res.json(groups);
   } else {
-    // let group = await Group.create({
-    //   name: 'testGroup',
-    // });
     let group = { name: 'newTestGroup' };
     let response = await fetch('http://localhost:5000/api/v2/groups', {
       method: 'post',
@@ -66,17 +65,26 @@ router.get('/products/:value?/:pid?', async function (req, res) {
   // console.log(req.query);
   if (!req.params.value) {
     let query = Object.entries(req.query).length ? req.query : null;
-    let result = await initDb([db.getProductsWithQuery], query);
+    // let result = await initDb([db.getProductsWithQuery], query);
+    let result = await Products.findAll();
     result.query = req.query;
     res.send(result);
   } else if (req.params.value === 'update') {
     let request = await createRequest({ type: 'products_v2' });
     let response = await fetchEvo(request); // Get Products from Evotor API
-    let arrSQL = db.productsUpdate(response.items); //Make SQL for update local storage (SQLite)
-    let result = await initDb(arrSQL); //Updated local storage
+    await ProductsEvo.sync({force: true});
+    let result = await ProductsEvo.bulkCreate(response.items);
     res.send(result);
+    // res.json({ status: 'ok' });
   } else if (req.params.value === 'p') {
-    let result = await initDb([db.getProducts], req.params.pid);
+    // let result = await initDb([db.getProducts], req.params.pid);
+    let whereP; // Generate Query string
+    if (+req.params.pid === 0 || req.params.pid === 'null') {
+      whereP = { parent_id: { [Op.is]: null } };
+    } else {
+      whereP = { parent_id: req.params.pid };
+    }
+    let result = await Products.findAll({ where: whereP });
     res.send(result);
   } else {
     let request = await createRequest({
@@ -84,7 +92,12 @@ router.get('/products/:value?/:pid?', async function (req, res) {
       value: req.params.value,
     });
     let result = await fetchEvo(request);
-    res.send(result);
+    // let result = await Products.findByPk(req.params.value);
+    if (result === null) {
+      res.json({ error: 'Primary key not found!' });
+    } else {
+      res.json(result);
+    }
   }
 });
 router.get('/documents/:value?', async function (req, res) {
