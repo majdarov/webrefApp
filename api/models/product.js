@@ -5,18 +5,13 @@ const sequelize = new Sequelize({
 });
 const Conf = require('./config');
 
-class Products extends Model {
-  // static async configStore() {
-  //   let store;
-  //   store = await Conf.findOne({
-  //     attributes: ['config_name', 'config_value'],
-  //     where: { config_name: 'store_id' },
-  //   });
-  //   this.storId = store.config_value;
-  // }
+class Product extends Model {
+  setBarcodes(values) {
+    this.setDataValue('barcodes', values);
+  }
 }
 
-Products.init(
+Product.init(
   {
     id: {
       //"586A9524-61EA-C21C-BC9F-BBA6188AB47A"
@@ -73,8 +68,8 @@ Products.init(
       type: DataTypes.DECIMAL(3, 10),
       defaultValue: 0,
     },
-    //barcodes: '2073210008232',
     photo: DataTypes.TEXT,
+    barcodes: DataTypes.VIRTUAL,
   },
   {
     sequelize,
@@ -83,4 +78,4 @@ Products.init(
   },
 );
 
-module.exports = Products;
+module.exports = Product;
