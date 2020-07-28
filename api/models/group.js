@@ -40,19 +40,12 @@ Group.init(
       type: DataTypes.TEXT,
       defaultValue: '01-000000000910281',
     },
-    created_at: {
-      type: DataTypes.DATE,
-      defaultValue: Sequelize.NOW,
-    },
-    updated_at: {
-      type: DataTypes.DATE,
-      defaultValue: Sequelize.NOW,
-    },
   },
   {
     sequelize,
     tableName: 'groups',
-    timestamps: false,
+    timestamps: true,
+    underscored: true,
   },
 );
 

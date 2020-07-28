@@ -69,12 +69,13 @@ Product.init(
       defaultValue: 0,
     },
     photo: DataTypes.TEXT,
-    barcodes: DataTypes.VIRTUAL,
+    // barcodes: DataTypes.VIRTUAL,
   },
   {
     sequelize,
     tableName: 'products',
-    timestamps: false,
+    timestamps: true,
+    underscored: true
   },
 );
 

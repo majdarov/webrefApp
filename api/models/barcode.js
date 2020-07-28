@@ -1,5 +1,4 @@
 const { Model, Sequelize, DataTypes } = require('sequelize');
-const { get } = require('jquery');
 const sequelize = new Sequelize({
   dialect: 'sqlite',
   storage: './api/db/products.db',

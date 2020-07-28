@@ -45,9 +45,6 @@ function parseQuery(q) {
             case 'like':
                 where[Op.substring] = validateQkey(key, q[key]);
                 break;
-            // case 'like':
-            //     where[Op.like] = validateQkey(key, q[key]);
-            //     break;
             default:
                 where[key] = validateQkey(key, q[key]);
                 break;
@@ -66,14 +63,3 @@ function validateQkey(key, qKey) {
 }
 
 module.exports = parseQuery;
-
-// let query = {
-//     paren_code: {
-//         is: 'null'
-//     },
-//     price: ['10', '20'],
-//     cost_price: {
-//         lt: '50'
-//     }
-// };
-// console.log(parseQuery(query))

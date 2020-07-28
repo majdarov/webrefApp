@@ -1,0 +1,10 @@
+{
+  "server": "https://api.evotor.ru/",
+  "path": "",
+  "headers": {
+    "Accept": "application/vnd.evotor.v2+json",
+    "Content-Type": "application/vnd.evotor.v2+json",
+    "X-Authorization": ""
+  },
+  "cursor": ""
+}

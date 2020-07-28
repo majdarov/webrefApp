@@ -8,7 +8,8 @@ var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var ulliRouter = require("./routes/ulli");
 var commodityRouter = require("./routes/commodity");
-var evoRouter = require('./api/evo_index');
+// var evoRouter = require('./api/evo_index');
+var evoRouter = require('./routes/evo');
 
 var app = express();
 

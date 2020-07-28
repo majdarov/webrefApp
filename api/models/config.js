@@ -4,12 +4,13 @@ const sequelize = new Sequelize({
   storage: './api/db/api.db',
 });
 
-class Conf extends Model {}
+class Config extends Model {}
 
-Conf.init(
+Config.init(
   {
     config_name: {
       type: DataTypes.TEXT,
+      primaryKey: true,
       unique: true,
       allowNull: false
     },
@@ -22,4 +23,4 @@ Conf.init(
   },
 );
 
-module.exports = Conf;
+module.exports = Config;

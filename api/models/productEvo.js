@@ -1,10 +1,17 @@
-const { Model, Sequelize, DataTypes } = require('sequelize');
+const { Sequelize, DataTypes, Model, NOW } = require('sequelize');
 const sequelize = new Sequelize({
   dialect: 'sqlite',
   storage: './api/db/products.db',
 });
 
-const ProductEvo = sequelize.define( 'product_evo', {
+class ProductEvo extends Model {
+  setBarcodes(values) {
+    this.setDataValue('barcodes', values);
+  }
+}
+
+ProductEvo.init(
+  {
     type: { type: DataTypes.TEXT, defaultValue: 'NORMAL' }, //'NORMAL'
     name: {
       //"Н кпр 93.5*3(0,8мм)(250гр.)"
@@ -67,25 +74,20 @@ const ProductEvo = sequelize.define( 'product_evo', {
       type: DataTypes.TEXT,
     },
     created_at: {
-      //'2019-08-12T09:49:49.651+0000'
       type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
+      defaultValue: Date.now()
     },
     updated_at: {
-      //'2019-08-12T09:49:49.669+0000'
       type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-    },
-    // barcodes: {
-    //   //'2073210008232'
-    //   type: DataTypes.TEXT,
-    // },
+      defaultValue: Date.now()
+    }
   },
   {
     sequelize,
     tableName: 'products_evo',
     timestamps: false,
-  }
+    underscored: true,
+  },
 );
 
 module.exports = ProductEvo;
