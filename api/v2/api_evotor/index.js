@@ -1,2 +1,2 @@
-module.exports.createRequest = require('./createRequest');
-module.exports.fetchEvo = require('./fetchEvo');
+module.exports.createRequestAxios = require('./createRequestAxios');
+module.exports.fetchEvoAxios = require('./fetchEvoAxios');

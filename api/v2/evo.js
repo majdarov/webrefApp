@@ -1,29 +1,38 @@
 const express = require('express');
 const router = express.Router();
-const { createRequest, fetchEvo } = require('./api_evotor');
+const { createRequestAxios, fetchEvoAxios } = require('./api_evotor');
 const Group = require('../models/group');
 const Product = require('../models/product');
-const { Op } = require('sequelize');
+const { Op, json } = require('sequelize');
 const { default: fetch } = require('node-fetch');
 const parseQuery = require('../models/parse_query');
 const { getGroups, postGroup } = require('./groups');
-const { getProducts } = require('./products');
+const { getProducts, postProduct } = require('./products');
 const { getConfig } = require('./config');
+const { default: Axios } = require('axios');
+const { request } = require('express');
 require('../models/relations');
 
 /* GET home page. */
 router.get('/', async (req, res) => {
-    res.json({ api_version: 2 });
+  res.json({ api_version: 2 });
 });
 
 router.get('/request/:action?', async (req, res) => {
   let request = '';
   let body = [];
-  if (req.query) {
+  let cursor;
+  if (req.query?.cursor) {
+    cursor = req.query.cursor;
+  } else {
     body = req.query.body;
   }
   if (req.params.action) {
-    request = await createRequest({ type: req.params.action, body });
+    request = await createRequestAxios({
+      type: req.params.action,
+      body,
+      cursor,
+    });
   }
   res.json({ api_version: 2, request, query: req.query });
 });
@@ -48,49 +57,73 @@ router.get('/seq/:destroy?', async (req, res) => {
         },
       },
     });
-    let groups = await Group.findAll();
+    let groups = await Group.findAndCountAll();
     res.json(groups);
   } else if (req.params.destroy === 'create') {
     let group = { name: req.query.name };
-    let response = await fetch('http://localhost:5000/api/v2/groups', {
-      method: 'post',
-      headers: { 'Content-Type': 'application/json;charset=utf-8' },
-      body: JSON.stringify(group),
-    });
-    let json = await response.json();
-    res.send(json);
+    console.log(JSON.stringify(group));
+    try {
+      let response = await fetchEvoAxios({
+        baseURL: 'http://localhost:5000/api/',
+        url: '/v2/groups',
+        method: 'post',
+        headers: { 'Content-Type': 'application/json;charset=utf-8' },
+        body: JSON.stringify(group),
+      });
+      // let json = await response.json();
+      res.send(response);
+    } catch (err) {
+      res.send(err);
+    }
+  } else if (req.params.destroy === 'test') {
+    /* let where = {
+      name: {
+        [Op.or]: [{ [Op.like]: '%корм%' }, { [Op.like]: '%Корм%' }],
+      },
+    };
+    const qs = require('qs');
+    let test = {
+      name: {
+        or: [{ like: 'корм' }, { like: 'Корм' }],
+      },
+    };
+    let str = qs.stringify(test, { encode: false });
+    console.log(str);
+    let { count, rows } = await Product.findAndCountAll({ where });
+    res.send({ count, rows, str }); */
+    res.end('test');
   }
 });
 
 router.get('/config', getConfig);
 
-router.get('/groups/:value?', getGroups).post('/groups', postGroup);
+router.get('/groups/:value?/:gid?', getGroups).post('/groups', postGroup);
 
-router.get('/products/:value?/:pid?', getProducts);
+router.get('/products/:value?/:pid?', getProducts).post('/products', postProduct);
 
-// router.get('/documents/:value?', async function (req, res) {
-//   if (!req.params.value) {
-//     res.json({ db: 'documents' });
-//   } else if (req.params.value === 'update') {
-//     try {
-//       let request = await createRequest({ type: 'documents_v2' });
-//       let result = await fetchEvo(request);
-//       res.send(result);
-//     } catch (err) {
-//       res.send(err.message);
-//     }
-//   } else {
-//     try {
-//       let request = await createRequest({
-//         type: 'documents_v2',
-//         value: req.params.value,
-//       });
-//       let result = await fetchEvo(request);
-//       res.send(result);
-//     } catch (err) {
-//       res.send(err.message);
-//     }
-//   }
-// });
+router.get('/documents/:value?', async function (req, res) {
+  if (!req.params.value) {
+    res.json({ db: 'documents' });
+  } else if (req.params.value === 'update') {
+    try {
+      let request = await createRequestAxios({ type: 'documents_v2' });
+      let result = await fetchEvoAxios(request);
+      res.send(result);
+    } catch (err) {
+      res.send(err.message);
+    }
+  } else {
+    try {
+      let request = await createRequestAxios({
+        type: 'documents_v2',
+        value: req.params.value,
+      });
+      let result = await fetchEvoAxios(request);
+      res.send(result);
+    } catch (err) {
+      res.send(err.message);
+    }
+  }
+});
 
 module.exports = router;

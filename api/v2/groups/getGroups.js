@@ -1,6 +1,6 @@
 const parseQuery = require("../../models/parse_query");
 const Group = require("../../models/group");
-const { createRequest, fetchEvo } = require("../api_evotor");
+const { createRequestAxios, fetchEvoAxios } = require("../api_evotor");
 
 module.exports = async function (req, res) {
     if (!req.params.value) {
@@ -12,8 +12,12 @@ module.exports = async function (req, res) {
       let groups = {count, items: rows, query: req.query};
       res.json(groups);
     } else if (req.params.value === 'update') {
-      let request = await createRequest({ type: 'groups_v2' });
-      let result = await fetchEvo(request);
+      let request = await createRequestAxios({ type: 'groups_v2' });
+      let result = await fetchEvoAxios(request);
+      if (req.params.gid === 'from_evo') { //Сквозной вывод результата из облака Эвотор
+        res.send(result);
+        return;
+      }
       await Group.sync({ force: true });
       let groups = await Group.bulkCreate(result.items);
       res.json(groups);

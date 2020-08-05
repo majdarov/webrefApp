@@ -1,6 +1,6 @@
 const parseQuery = require('../../models/parse_query');
 const Product = require('../../models/product');
-const { createRequest, fetchEvo } = require('../api_evotor');
+const { createRequestAxios, fetchEvoAxios } = require('../api_evotor');
 const ProductEvo = require('../../models/productEvo');
 const Barcode = require('../../models/barcode');
 
@@ -26,8 +26,8 @@ module.exports = async function (req, res) {
     let result = { count, items: rows, query: req.query };
     res.send(result);
   } else if (req.params.value === 'update') {
-    let request = await createRequest({ type: 'products_v2' });
-    let response = await fetchEvo(request); // Get Product from Evotor API
+    let request = await createRequestAxios({ type: 'products_v2' });
+    let response = await fetchEvoAxios(request); // Get Product from Evotor API
     
     if (req.params.pid === 'from_evo') { //Сквозной вывод результата из облака Эвотор
       res.send(response);
