@@ -1,8 +1,8 @@
-const parseQuery = require('../../models/parse_query');
-const Product = require('../../models/product');
-const { createRequestAxios, fetchEvoAxios } = require('../api_evotor');
-const ProductEvo = require('../../models/productEvo');
-const Barcode = require('../../models/barcode');
+const parseQuery = require("../../models/parse_query");
+const Product = require("../../models/product");
+const { createRequestAxios, fetchEvoAxios } = require("../api_evotor");
+const ProductEvo = require("../../models/productEvo");
+const Barcode = require("../../models/barcode");
 
 module.exports = async function (req, res) {
   if (!req.params.value) {
@@ -12,31 +12,36 @@ module.exports = async function (req, res) {
       include: {
         model: Barcode,
         // as: 'barcodes',
-        attributes: ['barcode'],
+        attributes: ["barcode"],
       },
-      order: [['name', 'ASC']]
+      order: [["name", "ASC"]],
     });
 
-    rows.map(p => {
-      p.setBarcodes(p.Barcodes.map(b => {return b.barcode}));
+    rows.map((p) => {
+      p.setBarcodes(
+        p.Barcodes.map((b) => {
+          return b.barcode;
+        })
+      );
       delete p.dataValues.Barcodes;
       return p;
-    })
+    });
 
     let result = { count, items: rows, query: req.query };
     res.send(result);
-  } else if (req.params.value === 'update') {
-    let request = await createRequestAxios({ type: 'products_v2' });
+  } else if (req.params.value === "update") {
+    let request = await createRequestAxios({ type: "products_v2" });
     let response = await fetchEvoAxios(request); // Get Product from Evotor API
-    
-    if (req.params.pid === 'from_evo') { //Сквозной вывод результата из облака Эвотор
+
+    if (req.params.pid === "from_evo") {
+      //Сквозной вывод результата из облака Эвотор
       res.send(response);
       return;
     }
 
     let barcodes = [];
     response.items.forEach((item) => {
-      if (item.barcodes?.length) {
+      if (item.barcodes && item.barcodes.length) {
         item.barcodes.forEach((barcode) => {
           barcodes.push({ id: item.id, barcode });
         });
@@ -46,31 +51,35 @@ module.exports = async function (req, res) {
     await Barcode.sync({ force: true });
     await ProductEvo.bulkCreate(response.items);
     await Barcode.bulkCreate(barcodes);
-    if (req.params.pid === 'init') {
-      await Product.sync({force: true});
+    if (req.params.pid === "init") {
+      await Product.sync({ force: true });
       await Product.bulkCreate(response.items);
     }
-    let {count, rows} = await ProductEvo.findAndCountAll({
+    let { count, rows } = await ProductEvo.findAndCountAll({
       include: {
         model: Barcode,
         // as: 'barcodes',
-        attributes: ['barcode'],
+        attributes: ["barcode"],
       },
     });
 
-    rows.map(p => {
-      p.setBarcodes(p.Barcodes.map(b => {return b.barcode}));
+    rows.map((p) => {
+      p.setBarcodes(
+        p.Barcodes.map((b) => {
+          return b.barcode;
+        })
+      );
       delete p.dataValues.Barcodes;
       return p;
-    })
-    res.send({count, items: rows});
-  } else if (req.params.value === 'barcode') {
+    });
+    res.send({ count, items: rows });
+  } else if (req.params.value === "barcode") {
     if (!req.params.pid) {
-      res.send({ error: 'nothing search!!!' });
+      res.send({ error: "nothing search!!!" });
       return;
     }
     let whereP; // Generate Query string
-    if (+req.params.pid === 0 || req.params.pid === 'null') {
+    if (+req.params.pid === 0 || req.params.pid === "null") {
       whereP = { barcode: { [Op.is]: null } };
     } else {
       whereP = { barcode: req.params.pid };
@@ -80,7 +89,7 @@ module.exports = async function (req, res) {
       include: {
         model: Barcode,
         // as: 'barcodes',
-        attributes: ['barcode'],
+        attributes: ["barcode"],
         where: whereP,
       },
     });
@@ -89,7 +98,7 @@ module.exports = async function (req, res) {
     // Find by Primary Key
     let product = await Product.findByPk(req.params.value);
     if (!product) {
-      res.json({ error: 'Primary key not found!' });
+      res.json({ error: "Primary key not found!" });
       return;
     }
     let barcodes = await Barcode.findAll({ where: { id: req.params.value } });

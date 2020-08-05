@@ -81,7 +81,7 @@ function selectOption(action) {
       return { ...api_v2, method, url, body };
 
     case 'put_array_products_v2':
-      if (!action.body?.length) {
+      if (!action.body || !action.body.length) {
         return {};
       }
       method = 'PUT';

@@ -3,14 +3,11 @@ const router = express.Router();
 const { createRequestAxios, fetchEvoAxios } = require('./api_evotor');
 const Group = require('../models/group');
 const Product = require('../models/product');
-const { Op, json } = require('sequelize');
-const { default: fetch } = require('node-fetch');
+const { Op } = require('sequelize');
 const parseQuery = require('../models/parse_query');
 const { getGroups, postGroup } = require('./groups');
 const { getProducts, postProduct } = require('./products');
 const { getConfig } = require('./config');
-const { default: Axios } = require('axios');
-const { request } = require('express');
 require('../models/relations');
 
 /* GET home page. */
@@ -22,7 +19,7 @@ router.get('/request/:action?', async (req, res) => {
   let request = '';
   let body = [];
   let cursor;
-  if (req.query?.cursor) {
+  if (req.query && req.query.cursor) {
     cursor = req.query.cursor;
   } else {
     body = req.query.body;

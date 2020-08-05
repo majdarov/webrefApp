@@ -13,9 +13,9 @@ const {
 const { createRequest, fetchEvo } = require("./db/evo_fetch");
 const v1 = require("./v1/evo");
 const v2 = require("./v2/evo");
-var cors = require('cors')
+var cors = require("cors");
 
-router.options('*', cors());
+router.options("*", cors());
 
 router.get("/", (req, res) => {
   res.redirect("/api/docs_new");
@@ -32,7 +32,7 @@ router.get("/docs", async function (req, res) {
     options.elems.header = [];
     options.elems.forms = [];
     options.scripts = [];
-    options.styles = ['api.css'];
+    options.styles = ["api.css"];
     res.render("pages/index", options);
   } catch (e) {
     console.error(e.message);
@@ -47,11 +47,11 @@ router.get("/docs_new", async function (req, res) {
     }
     let result = await initDb(getDoks);
     let doks = [];
-    result.items.forEach(item => {
-      if (!doks.length || !doks.find(dok => dok.dl === item.dl)) {
-        doks.push({dl: item.dl, dts: {[item.dt]: item.dd}});
+    result.items.forEach((item) => {
+      if (!doks.length || !doks.find((dok) => dok.dl === item.dl)) {
+        doks.push({ dl: item.dl, dts: { [item.dt]: item.dd } });
       } else {
-        let el = doks.find(dok => dok.dl === item.dl);
+        let el = doks.find((dok) => dok.dl === item.dl);
         el.dts[item.dt] = item.dd;
       }
     });
@@ -60,7 +60,7 @@ router.get("/docs_new", async function (req, res) {
     options.elems.header = [];
     options.elems.forms = [];
     options.scripts = [];
-    options.styles = ['api.css'];
+    options.styles = ["api.css"];
     options.doks = doks;
     res.render("pages/index", options);
   } catch (e) {
