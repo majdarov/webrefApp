@@ -8,13 +8,12 @@ var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var ulliRouter = require("./routes/ulli");
 var commodityRouter = require("./routes/commodity");
-var evoRouter = require('./api/evo_index');
+var evoRouter = require('./routes/evo');
 
 var app = express();
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
-// app.set('view engine', 'jade');
 app.set("view engine", "ejs");
 
 app.use(favicon(path.join(__dirname, "public/images", "Folder-Home.ico")));
@@ -22,10 +21,13 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+
+app.use(express.static(path.join(__dirname, "build")));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(
   express.static(path.join(__dirname, "views"), { extensions: ["html", "htm"] })
 );
+
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/ulli", ulliRouter);

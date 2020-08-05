@@ -17,9 +17,9 @@
   async function getConfig() {
     let conf = await fetch("/api/config");
     conf = await conf.json();
-    alert(conf.status.result);
+    // alert(conf.status.result);
     let ul = document.createElement("ul");
-    conf.items.forEach((item) => {
+    conf.forEach((item) => {
       if (item.config_name) {
         let li = document.createElement("li");
         li.name = item.config_name;
