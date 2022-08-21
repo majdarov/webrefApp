@@ -8,7 +8,7 @@
     "electron": "electron ."
   },
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "cookie-parser": "~1.4.4",
     "cors": "^2.8.5",
     "cross-blob": "^1.2.0",
@@ -24,7 +24,7 @@
     "node-fetch": "^2.6.1",
     "node-html-parser": "^1.2.4",
     "open": "^7.0.2",
-    "pug": "^2.0.4",
+    "pug": "^3.0.1",
     "python": "0.0.4",
     "qs": "^6.9.4",
     "sequelize": "^6.2.3",
