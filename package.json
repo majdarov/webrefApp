@@ -27,7 +27,7 @@
     "pug": "^3.0.1",
     "python": "0.0.4",
     "qs": "^6.9.4",
-    "sequelize": "^6.2.3",
+    "sequelize": "^6.28.2",
     "serve-favicon": "^2.5.0",
     "sqlite3": "^4.2.0"
   },
