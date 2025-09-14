@@ -15,7 +15,7 @@
     "debug": "~4.1.1",
     "ejs": "^3.0.1",
     "ejs-lint": "^1.1.0",
-    "electron-rebuild": "^1.10.0",
+    "electron-rebuild": "^3.2.9",
     "express": "~4.17.1",
     "filereader": "^0.10.3",
     "http-errors": "~1.7.3",
